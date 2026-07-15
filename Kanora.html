@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Benchmark UI — Care.com & SweepSouth (KaNora)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --font-display:'Poppins',system-ui,-apple-system,'Segoe UI',sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font-body);background:#0e1622;color:#111;-webkit-font-smoothing:antialiased}
+  img{max-width:100%;display:block}
+  a{text-decoration:none;color:inherit}
+  button{font-family:inherit;cursor:pointer;border:none}
+
+  /* ---------- Top switcher ---------- */
+  .switcher{position:sticky;top:0;z-index:9999;background:#0e1622;color:#fff;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:10px 20px;border-bottom:1px solid rgba(255,255,255,.08);flex-wrap:wrap}
+  .switcher .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px;letter-spacing:.2px}
+  .switcher .brand .dot{width:9px;height:9px;border-radius:50%;background:#16b5a6;box-shadow:0 0 0 4px rgba(22,181,166,.25)}
+  .seg{display:inline-flex;background:rgba(255,255,255,.08);border-radius:999px;padding:4px}
+  .seg button{background:transparent;color:#c7cede;font-weight:600;font-size:13.5px;
+    padding:8px 18px;border-radius:999px;transition:.2s;letter-spacing:.2px}
+  .seg button.active{background:#fff;color:#0e1622}
+  .switcher .note{font-size:11.5px;color:#8b93a6;max-width:260px;line-height:1.4}
+  @media(max-width:720px){.switcher .note{display:none}}
+
+  .view{display:none}
+  .view.active{display:block;animation:fade .35s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  @media(prefers-reduced-motion:reduce){.view.active{animation:none}}
+
+  .wrap{max-width:1200px;margin:0 auto;padding:0 40px}
+  @media(max-width:600px){.wrap{padding:0 20px}}
+  .pill{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    border-radius:999px;font-family:var(--font-display);font-weight:600;font-size:15px;
+    padding:14px 26px;transition:.2s;white-space:nowrap}
+  .pill:hover{transform:translateY(-2px)}
+  .eyebrow{font-family:var(--font-display);font-weight:600;font-size:12.5px;
+    letter-spacing:1.6px;text-transform:uppercase}
+
+  /* ============================================================
+     CARE.COM
+  ============================================================ */
+  .care{--pri:#e8574c;--pri-d:#cf453b;--ink:#2e2a47;--muted:#6b6784;
+    --peach:#fdece4;--cream:#fff8f4;--line:#f0e1da;--navy:#242138;
+    background:#fff;color:var(--ink);font-family:var(--font-body)}
+  .care h1,.care h2,.care h3,.care .eyebrow,.care .pill{font-family:var(--font-display)}
+
+  .care-nav{position:sticky;top:52px;z-index:50;background:rgba(255,255,255,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .care-nav .row{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .care-logo{font-family:var(--font-display);font-weight:800;font-size:26px;color:var(--pri);letter-spacing:-.5px}
+  .care-links{display:flex;gap:28px}
+  .care-links a{font-weight:500;font-size:15px;color:var(--ink)}
+  .care-links a:hover{color:var(--pri)}
+  .care-nav .right{display:flex;align-items:center;gap:18px}
+  .care-login{font-weight:600;font-size:15px}
+  .care .btn-pri{background:var(--pri);color:#fff}
+  .care .btn-pri:hover{background:var(--pri-d)}
+  .care .btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+  @media(max-width:860px){.care-links{display:none}}
+
+  .care-hero{background:linear-gradient(180deg,var(--peach),#fff)}
+  .care-hero .row{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;
+    padding:76px 0 84px}
+  .care-hero h1{font-size:60px;line-height:1.03;font-weight:800;letter-spacing:-1.5px}
+  .care-hero p{margin:22px 0 30px;font-size:18px;line-height:1.55;color:var(--muted);max-width:460px}
+  .care-hero .cta{display:flex;gap:14px;flex-wrap:wrap}
+  .care-heroart{aspect-ratio:5/4;border-radius:26px;
+    background:radial-gradient(120% 120% at 20% 10%,#ffd3c4,#f7b9a6 55%,#efa08b);
+    position:relative;overflow:hidden;box-shadow:0 30px 60px -30px rgba(207,69,59,.55)}
+  .care-heroart .chip{position:absolute;background:#fff;border-radius:16px;padding:12px 16px;
+    box-shadow:0 12px 30px -12px rgba(46,42,71,.3);font-size:13px;font-weight:600;color:var(--ink);
+    display:flex;align-items:center;gap:8px}
+  .care-heroart .c1{top:28px;left:28px}
+  .care-heroart .c2{bottom:30px;right:26px}
+  .care-heroart .face{position:absolute;inset:0;display:grid;place-items:center;font-size:120px;opacity:.9}
+  @media(max-width:860px){.care-hero .row{grid-template-columns:1fr;gap:36px;padding:48px 0}
+    .care-hero h1{font-size:42px}}
+
+  .care-cats{padding:84px 0}
+  .care-cats .head{text-align:center;margin-bottom:44px}
+  .care-cats h2{font-size:36px;font-weight:800;letter-spacing:-.8px}
+  .care-cats .sub{margin-top:12px;color:var(--muted);font-size:16px}
+  .care-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:18px}
+  @media(max-width:980px){.care-grid{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:560px){.care-grid{grid-template-columns:repeat(2,1fr)}}
+  .care-tile{background:var(--cream);border:1px solid var(--line);border-radius:20px;
+    padding:26px 16px;text-align:center;transition:.2s}
+  .care-tile:hover{transform:translateY(-4px);box-shadow:0 20px 40px -24px rgba(46,42,71,.3);border-color:transparent}
+  .care-tile .ic{width:66px;height:66px;border-radius:50%;margin:0 auto 14px;
+    display:grid;place-items:center;font-size:30px}
+  .care-tile b{display:block;font-family:var(--font-display);font-weight:600;font-size:15.5px}
+
+  .care-trust{background:var(--navy);color:#fff}
+  .care-trust .row{display:flex;flex-wrap:wrap;gap:30px;justify-content:space-between;padding:34px 0}
+  .care-trust .item{display:flex;align-items:center;gap:12px;font-size:14.5px;color:#e7e5f0}
+  .care-trust .item .e{font-size:22px}
+
+  .care-cta{background:var(--pri);color:#fff;text-align:center;padding:74px 0}
+  .care-cta h2{font-size:38px;font-weight:800;letter-spacing:-.6px;margin-bottom:26px}
+  .care-cta .pill{background:#fff;color:var(--pri)}
+
+  .care-foot{background:var(--navy);color:#c9c6db;padding:60px 0 34px}
+  .care-fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:36px;margin-bottom:40px}
+  @media(max-width:760px){.care-fgrid{grid-template-columns:repeat(2,1fr)}}
+  .care-foot h4{font-family:var(--font-display);color:#fff;font-size:15px;font-weight:600;margin-bottom:16px}
+  .care-foot ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+  .care-foot li{font-size:14px}
+  .care-foot li a:hover{color:#fff}
+  .care-fbot{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+    border-top:1px solid rgba(255,255,255,.1);padding-top:26px;font-size:13px;color:#8e8aa6}
+  .care-badge{display:inline-flex;gap:10px}
+  .care-badge span{background:#3a3654;color:#fff;border-radius:8px;padding:9px 14px;font-size:12.5px;font-weight:600}
+
+  /* ============================================================
+     SWEEPSOUTH
+  ============================================================ */
+  .sweep{--pri:#16b5a6;--pri-d:#0e9c90;--acc:#ff6b5b;--ink:#16233a;--muted:#5c6b7a;
+    --mint:#e7f7f4;--cream:#fbfbf9;--line:#e4ebe9;--yellow:#ffb020;
+    background:#fff;color:var(--ink);font-family:var(--font-body)}
+  .sweep h1,.sweep h2,.sweep h3,.sweep .eyebrow,.sweep .pill{font-family:var(--font-display)}
+
+  .sweep-nav{position:sticky;top:52px;z-index:50;background:rgba(255,255,255,.94);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .sweep-nav .row{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .sweep-logo{font-family:var(--font-display);font-weight:800;font-size:24px;letter-spacing:-.4px;color:var(--ink)}
+  .sweep-logo b{color:var(--pri)}
+  .sweep-links{display:flex;gap:26px}
+  .sweep-links a{font-weight:500;font-size:15px}
+  .sweep-links a:hover{color:var(--pri)}
+  .sweep-nav .right{display:flex;align-items:center;gap:16px}
+  .sweep-login{font-weight:600;font-size:15px}
+  .sweep .btn-pri{background:var(--pri);color:#fff}
+  .sweep .btn-pri:hover{background:var(--pri-d)}
+  .sweep .btn-acc{background:var(--acc);color:#fff}
+  .sweep .btn-ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+  @media(max-width:860px){.sweep-links{display:none}}
+
+  .sweep-hero{background:radial-gradient(90% 120% at 85% 0%,var(--mint),#fff 60%)}
+  .sweep-hero .row{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding:70px 0 76px}
+  .sweep-hero h1{font-size:56px;line-height:1.05;font-weight:800;letter-spacing:-1.4px}
+  .sweep-hero h1 span{color:var(--pri)}
+  .sweep-hero .lead{margin:20px 0 26px;font-size:18px;color:var(--muted);line-height:1.55;max-width:480px}
+  .sweep-chips{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:28px;max-width:520px}
+  .sweep-chips span{background:#fff;border:1px solid var(--line);border-radius:999px;
+    padding:8px 14px;font-size:13px;font-weight:500;color:var(--ink)}
+  .sweep-hero .cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .sweep-worker{font-size:14px;color:var(--muted)}
+  .sweep-worker a{color:var(--pri);font-weight:600}
+  .sweep-heroart{aspect-ratio:1/1;border-radius:28px;position:relative;overflow:hidden;
+    background:linear-gradient(150deg,#1fc6b6,#12a596);box-shadow:0 30px 60px -30px rgba(14,156,144,.6)}
+  .sweep-heroart .face{position:absolute;inset:0;display:grid;place-items:center;font-size:130px}
+  .sweep-heroart .badge{position:absolute;background:#fff;border-radius:16px;padding:12px 15px;
+    box-shadow:0 14px 34px -14px rgba(22,35,58,.35);font-size:13px;font-weight:600;display:flex;gap:8px;align-items:center}
+  .sweep-heroart .b1{top:26px;left:26px}
+  .sweep-heroart .b2{bottom:26px;right:24px;color:var(--pri)}
+  @media(max-width:860px){.sweep-hero .row{grid-template-columns:1fr;gap:34px;padding:44px 0}
+    .sweep-hero h1{font-size:40px}}
+
+  .sec{padding:78px 0}
+  .sweep .sec-head{max-width:640px;margin-bottom:44px}
+  .sweep .sec-head.center{margin-inline:auto;text-align:center}
+  .sweep .eyebrow{color:var(--pri);margin-bottom:12px;display:block}
+  .sweep h2{font-size:34px;font-weight:800;letter-spacing:-.7px}
+  .sweep .sec-head p{margin-top:12px;color:var(--muted);font-size:16px;line-height:1.5}
+
+  .sweep-offer{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  @media(max-width:860px){.sweep-offer{grid-template-columns:1fr}}
+  .sweep-ocard{border:1px solid var(--line);border-radius:22px;padding:30px;background:#fff;transition:.2s}
+  .sweep-ocard:hover{transform:translateY(-4px);box-shadow:0 24px 50px -28px rgba(22,35,58,.3);border-color:transparent}
+  .sweep-ocard .ic{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:26px;margin-bottom:18px;background:var(--mint)}
+  .sweep-ocard h3{font-size:20px;font-weight:700;margin-bottom:10px}
+  .sweep-ocard p{color:var(--muted);font-size:15px;line-height:1.55}
+  .sweep-ocard a{display:inline-block;margin-top:16px;color:var(--pri);font-weight:600;font-size:14.5px}
+
+  .sweep-steps{background:var(--cream)}
+  .sweep-steprow{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  @media(max-width:860px){.sweep-steprow{grid-template-columns:1fr}}
+  .sweep-step{position:relative;padding-top:8px}
+  .sweep-step .n{font-family:var(--font-display);font-weight:800;font-size:15px;color:#fff;
+    background:var(--pri);width:38px;height:38px;border-radius:50%;display:grid;place-items:center;margin-bottom:16px}
+  .sweep-step h3{font-size:19px;font-weight:700;margin-bottom:8px}
+  .sweep-step p{color:var(--muted);font-size:15px;line-height:1.55}
+
+  .sweep-stars{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  @media(max-width:860px){.sweep-stars{grid-template-columns:1fr}}
+  .sweep-star{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:#fff;transition:.2s}
+  .sweep-star:hover{transform:translateY(-4px);box-shadow:0 24px 50px -28px rgba(22,35,58,.3)}
+  .sweep-star .ph{height:190px;display:grid;place-items:center;font-size:74px;color:#fff}
+  .sweep-star .body{padding:22px}
+  .sweep-star .tag{font-size:12px;font-weight:600;color:var(--pri);text-transform:uppercase;letter-spacing:.6px}
+  .sweep-star h3{font-size:18px;font-weight:700;margin:6px 0 8px}
+  .sweep-star q{display:block;color:var(--muted);font-size:14.5px;line-height:1.5;font-style:italic}
+  .sweep-star .rate{margin-top:12px;color:var(--yellow);font-size:15px;letter-spacing:2px}
+
+  .sweep-svc{background:var(--cream)}
+  .sweep-svcgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:860px){.sweep-svcgrid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){.sweep-svcgrid{grid-template-columns:1fr}}
+  .sweep-svcitem{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;
+    display:flex;gap:14px;align-items:flex-start;transition:.2s}
+  .sweep-svcitem:hover{border-color:var(--pri);transform:translateY(-2px)}
+  .sweep-svcitem .e{font-size:26px;flex:0 0 auto}
+  .sweep-svcitem b{display:block;font-family:var(--font-display);font-weight:600;font-size:15.5px;margin-bottom:3px}
+  .sweep-svcitem span{color:var(--muted);font-size:13px;line-height:1.45}
+
+  .sweep-safe .sweep-safegrid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:8px}
+  @media(max-width:860px){.sweep-safe .sweep-safegrid{grid-template-columns:repeat(2,1fr)}}
+  .sweep-safeitem{text-align:center;padding:20px}
+  .sweep-safeitem .ic{width:64px;height:64px;border-radius:18px;background:var(--mint);
+    display:grid;place-items:center;font-size:28px;margin:0 auto 14px}
+  .sweep-safeitem b{display:block;font-family:var(--font-display);font-weight:600;font-size:15px;margin-bottom:6px}
+  .sweep-safeitem span{color:var(--muted);font-size:13.5px;line-height:1.5}
+
+  .sweep-work{background:linear-gradient(120deg,var(--ink),#22344f);color:#fff}
+  .sweep-work .row{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:66px 0}
+  @media(max-width:860px){.sweep-work .row{grid-template-columns:1fr}}
+  .sweep-work h2{font-size:34px;font-weight:800;letter-spacing:-.6px;margin-bottom:14px}
+  .sweep-work p{color:#c6d2df;font-size:16px;line-height:1.55;margin-bottom:24px;max-width:440px}
+  .sweep-workart{aspect-ratio:16/10;border-radius:22px;background:linear-gradient(150deg,#1fc6b6,#0e9c90);
+    display:grid;place-items:center;font-size:96px}
+
+  .sweep-partners{padding:44px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .sweep-partners .lbl{text-align:center;color:var(--muted);font-size:12.5px;letter-spacing:1px;text-transform:uppercase;margin-bottom:22px}
+  .sweep-plogos{display:flex;flex-wrap:wrap;justify-content:center;gap:36px 48px;align-items:center}
+  .sweep-plogos span{font-family:var(--font-display);font-weight:700;font-size:19px;color:#9aa7b3;letter-spacing:-.3px}
+
+  .sweep-foot{background:var(--ink);color:#aeb9c6;padding:56px 0 30px}
+  .sweep-fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:34px;margin-bottom:38px}
+  @media(max-width:760px){.sweep-fgrid{grid-template-columns:1fr 1fr}}
+  .sweep-foot .logo{font-family:var(--font-display);font-weight:800;font-size:22px;color:#fff;margin-bottom:12px}
+  .sweep-foot .logo b{color:var(--pri)}
+  .sweep-foot p.blurb{font-size:14px;line-height:1.6;max-width:260px}
+  .sweep-foot h4{color:#fff;font-family:var(--font-display);font-size:14.5px;font-weight:600;margin-bottom:14px}
+  .sweep-foot ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .sweep-foot li{font-size:14px}
+  .sweep-foot li a:hover{color:#fff}
+  .sweep-fbot{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;font-size:13px;color:#7f8b99;
+    display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+
+  /* ============================================================
+     KANORA (hybride, orientée travailleuses)
+  ============================================================ */
+  .kanora{--or:#f5822b;--or-d:#dc6e1e;--vi:#6b2fa0;--vi-d:#57267f;
+    --ink:#2a1b3d;--muted:#6e6480;--white:#fefefe;--line:#eee7f2;
+    --or-tint:#fdefe1;--vi-tint:#f2ebfa;--cream:#fdfbff;
+    background:var(--white);color:var(--ink);font-family:'Raleway',var(--font-body)}
+  .kanora h1,.kanora h2,.kanora h3,.kanora h4,.kanora .eyebrow,.kanora .pill,.kanora .kn-logo{font-family:'Raleway',var(--font-display)}
+
+  .kn-nav{position:sticky;top:52px;z-index:50;background:rgba(254,254,254,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .kn-nav .row{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .kn-logo{font-weight:800;font-size:26px;letter-spacing:-.5px;color:var(--ink)}
+  .kn-logo b{color:var(--or)}
+  .kn-links{display:flex;gap:26px}
+  .kn-links a{font-weight:500;font-size:15px;color:var(--ink)}
+  .kn-links a:hover{color:var(--or)}
+  .kn-nav .right{display:flex;align-items:center;gap:16px}
+  .kn-login{font-weight:600;font-size:15px}
+  .kanora .btn-or{background:var(--or);color:#fff}
+  .kanora .btn-or:hover{background:var(--or-d)}
+  .kanora .btn-vi{background:var(--vi);color:#fff}
+  .kanora .btn-vi:hover{background:var(--vi-d)}
+  .kanora .btn-ghost{background:var(--white);color:var(--vi);border:1.5px solid var(--vi)}
+  @media(max-width:860px){.kn-links{display:none}}
+
+  .kn-hero{background:
+     radial-gradient(80% 120% at 88% 0%,var(--or-tint),transparent 55%),
+     radial-gradient(90% 120% at 5% 10%,var(--vi-tint),transparent 55%),var(--white)}
+  .kn-hero .row{display:grid;grid-template-columns:1.08fr .92fr;gap:48px;align-items:center;padding:66px 0 74px}
+  .kn-hero .eyebrow{color:var(--or);margin-bottom:16px;display:inline-block;
+    background:var(--or-tint);padding:7px 14px;border-radius:999px;letter-spacing:1px}
+  .kn-hero h1{font-size:56px;line-height:1.05;font-weight:800;letter-spacing:-1.4px}
+  .kn-hero h1 span{color:var(--vi)}
+  .kn-hero .lead{margin:20px 0 28px;font-size:18px;color:var(--muted);line-height:1.55;max-width:470px}
+  .kn-hero .cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .kn-hero .book{margin-top:16px;font-size:14px;color:var(--muted)}
+  .kn-hero .book a{color:var(--vi);font-weight:700}
+  .kn-heroart{aspect-ratio:1/1;border-radius:30px;position:relative;overflow:hidden;
+    background:linear-gradient(150deg,var(--vi),#8a45c9 60%,var(--or));
+    box-shadow:0 34px 66px -32px rgba(107,47,160,.6)}
+  .kn-heroart .face{position:absolute;inset:0;display:grid;place-items:center;font-size:140px}
+  .kn-heroart .badge{position:absolute;background:#fff;border-radius:16px;padding:12px 15px;
+    box-shadow:0 16px 36px -16px rgba(42,27,61,.4);font-size:13px;font-weight:700;display:flex;gap:8px;align-items:center}
+  .kn-heroart .b1{top:24px;left:24px;color:var(--or)}
+  .kn-heroart .b2{bottom:24px;right:22px;color:var(--vi)}
+  @media(max-width:860px){.kn-hero .row{grid-template-columns:1fr;gap:32px;padding:42px 0}
+    .kn-hero h1{font-size:40px}}
+
+  .kn-stats{background:var(--vi);color:#fff}
+  .kn-stats .row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:34px 0;text-align:center}
+  @media(max-width:600px){.kn-stats .row{grid-template-columns:1fr;gap:18px}}
+  .kn-stat b{display:block;font-weight:800;font-size:30px;letter-spacing:-.5px}
+  .kn-stat span{font-size:14px;color:#e5d8f2}
+  .kn-stat b em{color:#ffc27a;font-style:normal}
+
+  .kanora .sec-head{max-width:640px;margin-bottom:42px}
+  .kanora .sec-head.center{margin-inline:auto;text-align:center}
+  .kanora .eyebrow{color:var(--or)}
+  .kanora .sec-head .eyebrow{display:block;margin-bottom:12px}
+  .kanora h2{font-size:34px;font-weight:800;letter-spacing:-.7px}
+  .kanora .sec-head p{margin-top:12px;color:var(--muted);font-size:16px;line-height:1.5}
+
+  .kn-cats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  @media(max-width:860px){.kn-cats{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){.kn-cats{grid-template-columns:1fr}}
+  .kn-cat{border:1px solid var(--line);border-radius:18px;padding:22px;background:var(--white);
+    display:flex;gap:14px;align-items:center;transition:.2s}
+  .kn-cat:hover{transform:translateY(-3px);box-shadow:0 20px 42px -24px rgba(42,27,61,.28);border-color:transparent}
+  .kn-cat .ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;font-size:24px;flex:0 0 auto}
+  .kn-cat b{display:block;font-weight:700;font-size:15.5px}
+  .kn-cat span{color:var(--muted);font-size:12.5px}
+
+  .kn-steps{background:var(--cream)}
+  .kn-steprow{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  @media(max-width:860px){.kn-steprow{grid-template-columns:1fr}}
+  .kn-step .n{font-weight:800;font-size:15px;color:#fff;background:var(--or);
+    width:38px;height:38px;border-radius:50%;display:grid;place-items:center;margin-bottom:16px}
+  .kn-step h3{font-size:19px;font-weight:700;margin-bottom:8px}
+  .kn-step p{color:var(--muted);font-size:15px;line-height:1.55}
+
+  .kn-offers{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  @media(max-width:860px){.kn-offers{grid-template-columns:1fr}}
+  .kn-ocard{border:1px solid var(--line);border-radius:22px;padding:30px;background:var(--white);transition:.2s;position:relative}
+  .kn-ocard:hover{transform:translateY(-4px);box-shadow:0 24px 50px -28px rgba(42,27,61,.3);border-color:transparent}
+  .kn-ocard.feat{background:linear-gradient(160deg,var(--vi-tint),var(--white));border-color:var(--vi)}
+  .kn-ocard .ic{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:26px;margin-bottom:18px;background:var(--or-tint)}
+  .kn-ocard .name{font-size:12.5px;font-weight:700;color:var(--or);letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px}
+  .kn-ocard h3{font-size:20px;font-weight:700;margin-bottom:10px}
+  .kn-ocard p{color:var(--muted);font-size:15px;line-height:1.55}
+  .kn-ocard a{display:inline-block;margin-top:16px;color:var(--vi);font-weight:700;font-size:14.5px}
+
+  .kn-pros{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  @media(max-width:860px){.kn-pros{grid-template-columns:1fr}}
+  .kn-pro{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:var(--white);transition:.2s}
+  .kn-pro:hover{transform:translateY(-4px);box-shadow:0 24px 50px -28px rgba(42,27,61,.3)}
+  .kn-pro .ph{height:190px;display:grid;place-items:center;font-size:76px;color:#fff}
+  .kn-pro .body{padding:22px}
+  .kn-pro .tag{font-size:12px;font-weight:700;color:var(--or);text-transform:uppercase;letter-spacing:.6px}
+  .kn-pro h3{font-size:18px;font-weight:700;margin:6px 0 8px}
+  .kn-pro q{display:block;color:var(--muted);font-size:14.5px;line-height:1.5;font-style:italic}
+  .kn-pro .rate{margin-top:12px;color:#f5a623;font-size:15px;letter-spacing:2px}
+
+  .kn-safe{background:var(--cream)}
+  .kn-safegrid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:8px}
+  @media(max-width:860px){.kn-safegrid{grid-template-columns:repeat(2,1fr)}}
+  .kn-safeitem{text-align:center;padding:20px}
+  .kn-safeitem .ic{width:64px;height:64px;border-radius:18px;background:var(--vi-tint);
+    display:grid;place-items:center;font-size:28px;margin:0 auto 14px}
+  .kn-safeitem b{display:block;font-weight:700;font-size:15px;margin-bottom:6px}
+  .kn-safeitem span{color:var(--muted);font-size:13.5px;line-height:1.5}
+
+  .kn-mission{background:linear-gradient(120deg,var(--vi),var(--vi-d));color:#fff;overflow:hidden}
+  .kn-mission .row{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:64px 0}
+  @media(max-width:860px){.kn-mission .row{grid-template-columns:1fr}}
+  .kn-mission .eyebrow{color:#ffc27a;display:block;margin-bottom:14px}
+  .kn-mission h2{font-size:36px;font-weight:800;letter-spacing:-.7px;margin-bottom:14px}
+  .kn-mission h2 span{color:#ffb154}
+  .kn-mission p{color:#e6d9f3;font-size:16px;line-height:1.6;margin-bottom:24px;max-width:440px}
+  .kn-missionart{aspect-ratio:4/3;border-radius:22px;background:linear-gradient(150deg,#8a45c9,var(--or));
+    display:grid;place-items:center;font-size:100px}
+
+  .kn-partners{padding:44px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .kn-partners .lbl{text-align:center;color:var(--muted);font-size:12.5px;letter-spacing:1px;text-transform:uppercase;margin-bottom:22px}
+  .kn-plogos{display:flex;flex-wrap:wrap;justify-content:center;gap:34px 46px;align-items:center}
+  .kn-plogos span{font-weight:700;font-size:18px;color:#a99fb5;letter-spacing:-.2px}
+
+  .kn-foot{background:var(--ink);color:#c3b8d0;padding:56px 0 30px}
+  .kn-fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:34px;margin-bottom:38px}
+  @media(max-width:760px){.kn-fgrid{grid-template-columns:1fr 1fr}}
+  .kn-foot .logo{font-weight:800;font-size:22px;color:#fff;margin-bottom:12px}
+  .kn-foot .logo b{color:var(--or)}
+  .kn-foot p.blurb{font-size:14px;line-height:1.6;max-width:270px}
+  .kn-foot h4{color:#fff;font-size:14.5px;font-weight:600;margin-bottom:14px}
+  .kn-foot ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+  .kn-foot li{font-size:14px}
+  .kn-foot li a:hover{color:#fff}
+  .kn-fbot{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;font-size:13px;color:#8b7fa0;
+    display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+
+  /* --- KaNora V1 copy adjustments --- */
+  .kn-hero .eyebrow{background:none;padding:0;text-transform:none;letter-spacing:.2px;font-size:14px;color:var(--vi);font-weight:700;max-width:520px}
+  .kn-hero h1 span{color:var(--vi)}
+  .kn-cats{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:760px){.kn-cats{grid-template-columns:1fr}}
+
+  .kn-impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center}
+  @media(max-width:600px){.kn-impact-grid{grid-template-columns:1fr}}
+  .kn-istat{padding:30px 20px;border:1px solid var(--line);border-radius:20px;background:var(--cream)}
+  .kn-istat b{display:block;font-size:46px;font-weight:800;color:var(--vi);letter-spacing:-1.5px;line-height:1}
+  .kn-istat:nth-child(2) b{color:var(--or)}
+  .kn-istat span{color:var(--muted);font-size:14px;margin-top:10px;display:block;line-height:1.4}
+
+  .kn-sim .box{display:grid;grid-template-columns:1.05fr .95fr;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:0 30px 60px -36px rgba(42,27,61,.3)}
+  @media(max-width:760px){.kn-sim .box{grid-template-columns:1fr}}
+  .kn-sim .controls{padding:34px;background:var(--white)}
+  .kn-sim .field{margin-bottom:20px}
+  .kn-sim .field:last-child{margin-bottom:0}
+  .kn-sim label{display:block;font-weight:600;font-size:13px;margin-bottom:8px;color:var(--ink)}
+  .kn-sim select{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:12px;font-family:inherit;font-size:15px;color:var(--ink);background:#fff}
+  .kn-sim .seg2{display:flex;gap:8px;flex-wrap:wrap}
+  .kn-sim .seg2 button{flex:1;min-width:92px;padding:12px 8px;border:1px solid var(--line);border-radius:12px;background:#fff;font-family:inherit;font-weight:600;font-size:13px;color:var(--muted);transition:.15s}
+  .kn-sim .seg2 button.on{background:var(--vi-tint);border-color:var(--vi);color:var(--vi)}
+  .kn-sim .result{padding:36px;background:linear-gradient(160deg,var(--vi),var(--vi-d));color:#fff;display:flex;flex-direction:column;justify-content:center}
+  .kn-sim .result .lbl{font-size:12px;color:#e5d8f2;text-transform:uppercase;letter-spacing:1.4px}
+  .kn-sim .result .price{font-size:46px;font-weight:800;letter-spacing:-1.5px;margin:8px 0;line-height:1}
+  .kn-sim .result .price small{font-size:17px;font-weight:600;color:#e5d8f2;letter-spacing:0}
+  .kn-sim .result .micro{font-size:13.5px;color:#efe6f8;line-height:1.5;margin-top:16px;display:flex;gap:8px}
+  .kn-sim .result .pill{margin-top:22px;align-self:flex-start;background:var(--or);color:#fff}
+
+  .kn-app{background:var(--cream)}
+  .kn-app .row{display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center}
+  @media(max-width:760px){.kn-app .row{grid-template-columns:1fr;gap:34px}}
+  .kn-app h2{font-size:34px;font-weight:800;letter-spacing:-.7px}
+  .kn-app .lead{margin:14px 0 0}
+  .kn-app .badges{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px}
+  .kn-badge{display:inline-flex;align-items:center;gap:12px;background:var(--ink);color:#fff;border-radius:14px;padding:12px 20px}
+  .kn-badge .e{font-size:24px}
+  .kn-badge small{display:block;font-size:10.5px;color:#c3b8d0;font-weight:500;letter-spacing:.3px}
+  .kn-badge b{font-size:16px;font-weight:700}
+  .kn-phone{width:220px;aspect-ratio:9/18.5;margin:0 auto;border-radius:38px;background:#1c1230;padding:10px;position:relative;box-shadow:0 34px 66px -30px rgba(42,27,61,.6)}
+  .kn-phone .notch{position:absolute;top:18px;left:50%;transform:translateX(-50%);width:74px;height:6px;border-radius:6px;background:#3a2b52;z-index:2}
+  .kn-phone .scr{width:100%;height:100%;border-radius:29px;background:linear-gradient(160deg,var(--vi),var(--or));display:grid;place-items:center;font-size:78px}
+
+  .kn-final{background:linear-gradient(120deg,var(--or),#ffab5c);color:#fff;text-align:center;padding:74px 0}
+  .kn-final h2{font-size:38px;font-weight:800;letter-spacing:-.6px;margin-bottom:26px;color:#fff}
+  .kn-final .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .kn-final .pill.p{background:#fff;color:var(--or)}
+  .kn-final .pill.s{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.85)}
+
+</style>
+</head>
+<body>
+
+<!-- ================= SWITCHER ================= -->
+<div class="switcher">
+  <div class="brand"><span class="dot"></span>Benchmark UI — KaNora</div>
+  <div class="seg">
+    <button id="tab-kanora" class="active" onclick="show('kanora')">KaNora ✦</button>
+    <button id="tab-care" onclick="show('care')">Care.com</button>
+    <button id="tab-sweep" onclick="show('sweep')">SweepSouth</button>
+  </div>
+  <div class="note">V1 KaNora (copywriting V1) + les 2 recréations d'étude. Couleurs provisoires.</div>
+</div>
+
+<!-- ================= KANORA ================= -->
+<div id="view-kanora" class="view active">
+<div class="kanora">
+
+  <nav class="kn-nav"><div class="wrap"><div class="row">
+    <div class="kn-logo">Ka<b>Nora</b></div>
+    <div class="kn-links">
+      <a href="#">Services</a><a href="#">Devenir KaNora Lady</a>
+      <a href="#">Tarifs</a><a href="#">À propos</a>
+    </div>
+    <div class="right">
+      <a href="#" class="kn-login">Se connecter</a>
+      <a href="#" class="pill btn-or">Réserver</a>
+    </div>
+  </div></div></nav>
+
+  <header class="kn-hero"><div class="wrap"><div class="row">
+    <div>
+      <span class="eyebrow">À Dakar, l'aide à domicile en qui vous pouvez avoir confiance</span>
+      <h1>Une maison bien tenue.<br><span>Une professionnelle en qui vous croyez.</span></h1>
+      <p class="lead">KaNora forme, encadre et vous met en relation avec des KaNora Ladies vérifiées pour le ménage, la cuisine et la garde d'enfants.</p>
+      <div class="cta">
+        <a href="#" class="pill btn-or">Réserver une KaNora Lady</a>
+      </div>
+      <div class="book">Vous êtes une femme motivée ? <a href="#">Devenez KaNora Lady →</a></div>
+    </div>
+    <div class="kn-heroart">
+      <div class="face">👩🏾</div>
+      <div class="badge b1">✅ Vérifiée &amp; formée</div>
+      <div class="badge b2">💜 Encadrée par KaNora</div>
+    </div>
+  </div></div></header>
+
+  <section class="sec kn-steps"><div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">Comment ça marche</span>
+      <h2>Une aide à domicile fiable, en 3 étapes.</h2>
+    </div>
+    <div class="kn-steprow">
+      <div class="kn-step"><div class="n">1</div><h3>Choisissez votre besoin</h3>
+        <p>Ménage, cuisine ou garde d'enfants, ponctuel ou récurrent.</p></div>
+      <div class="kn-step"><div class="n">2</div><h3>Recevez votre KaNora Lady</h3>
+        <p>Formée, vérifiée, adaptée à votre foyer.</p></div>
+      <div class="kn-step"><div class="n">3</div><h3>Suivez et payez en ligne</h3>
+        <p>Simple, sécurisé, sans mauvaise surprise.</p></div>
+    </div>
+  </div></section>
+
+  <section class="sec"><div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">Nos services</span>
+      <h2>Trois services, un même soin du détail.</h2>
+    </div>
+    <div class="kn-cats">
+      <a class="kn-cat"><div class="ic" style="background:var(--or-tint)">🧹</div><div><b>Ménage</b><span>Un intérieur impeccable, sans y penser.</span></div></a>
+      <a class="kn-cat"><div class="ic" style="background:var(--vi-tint)">🍳</div><div><b>Cuisine</b><span>Des repas faits maison, préparés chez vous.</span></div></a>
+      <a class="kn-cat"><div class="ic" style="background:var(--or-tint)">🍼</div><div><b>Assistante maternelle</b><span>Une présence rassurante pour vos enfants.</span></div></a>
+    </div>
+  </div></section>
+
+  <section class="kn-mission"><div class="wrap"><div class="row">
+    <div>
+      <span class="eyebrow">Nos valeurs</span>
+      <h2>Le respect, <span>non négociable.</span></h2>
+      <p>Formées, encadrées, valorisées : chaque KaNora Lady exerce son métier avec fierté — et chaque foyer en profite.</p>
+      <a href="#" class="pill btn-or">Devenir KaNora Lady</a>
+    </div>
+    <div class="kn-missionart">💜</div>
+  </div></div></section>
+
+  <section class="sec"><div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">En chiffres</span>
+      <h2>L'impact KaNora, mesuré.</h2>
+    </div>
+    <div class="kn-impact-grid">
+      <div class="kn-istat"><b>+300</b><span>KaNora Ladies (mai 2026)</span></div>
+      <div class="kn-istat"><b>81%</b><span>déclarent une meilleure qualité de vie</span></div>
+      <div class="kn-istat"><b>88%</b><span>ont développé de nouvelles compétences</span></div>
+    </div>
+  </div></section>
+
+  <section class="sec kn-sim"><div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">Simulateur de tarifs</span>
+      <h2>Estimez le coût de votre service.</h2>
+    </div>
+    <div class="box">
+      <div class="controls">
+        <div class="field"><label>Service</label>
+          <select id="sim-service" onchange="knSim()">
+            <option value="3000">Ménage</option>
+            <option value="3500">Cuisine</option>
+            <option value="4000">Assistante maternelle</option>
+          </select></div>
+        <div class="field"><label>Durée</label>
+          <select id="sim-hours" onchange="knSim()">
+            <option value="2">2 heures</option>
+            <option value="3" selected>3 heures</option>
+            <option value="4">4 heures</option>
+            <option value="6">6 heures</option>
+            <option value="8">8 heures (journée)</option>
+          </select></div>
+        <div class="field"><label>Fréquence</label>
+          <div class="seg2" id="sim-freq">
+            <button class="on" data-mult="1" data-per="intervention" onclick="knFreq(this)">Ponctuel</button>
+            <button data-mult="4" data-per="mois" onclick="knFreq(this)">1×/semaine</button>
+            <button data-mult="8" data-per="mois" onclick="knFreq(this)">2×/semaine</button>
+          </div></div>
+      </div>
+      <div class="result">
+        <div class="lbl">Estimation</div>
+        <div class="price"><span id="sim-price">9 000</span> <small>FCFA <span id="sim-per">/ intervention</span></small></div>
+        <div class="micro">🔒 Aucun frais caché. Vous savez exactement ce que vous payez.</div>
+        <a href="#" class="pill">Réserver maintenant</a>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="sec kn-app"><div class="wrap"><div class="row">
+    <div>
+      <span class="eyebrow">Application mobile</span>
+      <h2>KaNora, dans votre poche.</h2>
+      <p class="lead" style="color:var(--muted);max-width:430px">Réservez une KaNora Lady, suivez vos rendez-vous et payez en toute sécurité — où que vous soyez.</p>
+      <div class="badges">
+        <a href="#" class="kn-badge"><span class="e">🍏</span><span><small>Télécharger sur</small><b>App Store</b></span></a>
+        <a href="#" class="kn-badge"><span class="e">▶️</span><span><small>Disponible sur</small><b>Google Play</b></span></a>
+      </div>
+    </div>
+    <div class="kn-phone"><div class="notch"></div><div class="scr">📱</div></div>
+  </div></div></section>
+
+  <section class="kn-final"><div class="wrap">
+    <h2>Votre maison mérite une KaNora Lady.</h2>
+    <div class="cta">
+      <a href="#" class="pill p">Réserver maintenant</a>
+      <a href="#" class="pill s">Devenir KaNora Lady</a>
+    </div>
+  </div></section>
+
+  <footer class="kn-foot"><div class="wrap">
+    <div class="kn-fgrid">
+      <div>
+        <div class="logo">Ka<b>Nora</b></div>
+        <p class="blurb">Entreprise sociale sénégalaise — une aide à domicile de confiance, portée par des femmes formées et valorisées.</p>
+      </div>
+      <div><h4>Services</h4><ul>
+        <li><a>Ménage</a></li><li><a>Cuisine</a></li>
+        <li><a>Assistante maternelle</a></li><li><a>Tarifs</a></li></ul></div>
+      <div><h4>KaNora</h4><ul>
+        <li><a>Devenir KaNora Lady</a></li><li><a>Nos valeurs</a></li>
+        <li><a>Notre impact</a></li><li><a>Nous contacter</a></li></ul></div>
+      <div><h4>Aide</h4><ul>
+        <li><a>Centre d'aide</a></li><li><a>Confidentialité</a></li>
+        <li><a>Conditions</a></li><li><a>Application mobile</a></li></ul></div>
+    </div>
+    <div class="kn-fbot">
+      <span>© 2026 KaNora Services — maquette (couleurs provisoires).</span>
+      <span>Dakar, Sénégal</span>
+    </div>
+  </div></footer>
+
+</div>
+</div>
+
+<!-- ================= CARE.COM ================= -->
+<div id="view-care" class="view">
+<div class="care">
+
+  <nav class="care-nav"><div class="wrap"><div class="row">
+    <div class="care-logo">care.com</div>
+    <div class="care-links">
+      <a href="#">Find care</a><a href="#">Find jobs</a>
+      <a href="#">List your business</a><a href="#">Resources</a>
+    </div>
+    <div class="right">
+      <a href="#" class="care-login">Log in</a>
+      <a href="#" class="pill btn-pri">Get started</a>
+    </div>
+  </div></div></nav>
+
+  <header class="care-hero"><div class="wrap"><div class="row">
+    <div>
+      <h1>Real care.<br>Real options.<br>Right now.</h1>
+      <p>Get the help you need for your children, pets, elderly parents, home and lifestyle — all in one place.</p>
+      <div class="cta">
+        <a href="#" class="pill btn-pri">Find care</a>
+        <a href="#" class="pill btn-ghost">Find care jobs</a>
+      </div>
+    </div>
+    <div class="care-heroart">
+      <div class="face">👩‍👧</div>
+      <div class="chip c1">✅ Background-checked</div>
+      <div class="chip c2">⭐ 4.9 average rating</div>
+    </div>
+  </div></div></header>
+
+  <section class="care-cats"><div class="wrap">
+    <div class="head">
+      <h2>What are you looking for?</h2>
+      <div class="sub">Millions of caregivers, one trusted place to find them.</div>
+    </div>
+    <div class="care-grid">
+      <a class="care-tile"><div class="ic" style="background:#fbd9ce">🧒</div><b>Child care</b></a>
+      <a class="care-tile"><div class="ic" style="background:#d9e8f7">👵</div><b>Senior care</b></a>
+      <a class="care-tile"><div class="ic" style="background:#e6e0f6">🧑‍🦽</div><b>Adult care</b></a>
+      <a class="care-tile"><div class="ic" style="background:#d8f0e4">🐕</div><b>Pet care</b></a>
+      <a class="care-tile"><div class="ic" style="background:#fbebd1">🧹</div><b>Housekeeping</b></a>
+      <a class="care-tile"><div class="ic" style="background:#f7dcec">📚</div><b>Tutoring</b></a>
+    </div>
+  </div></section>
+
+  <section class="care-trust"><div class="wrap"><div class="row">
+    <div class="item"><span class="e">🛡️</span> Background checks on caregivers</div>
+    <div class="item"><span class="e">💬</span> Reviews from real families</div>
+    <div class="item"><span class="e">🔒</span> Secure messaging &amp; payments</div>
+    <div class="item"><span class="e">📞</span> Safety Center &amp; support</div>
+  </div></div></section>
+
+  <section class="care-cta"><div class="wrap">
+    <h2>Care can’t wait. Neither should you.</h2>
+    <a href="#" class="pill">Find care</a>
+  </div></section>
+
+  <footer class="care-foot"><div class="wrap">
+    <div class="care-fgrid">
+      <div><h4>About Care.com</h4><ul>
+        <li><a>About us</a></li><li><a>Newsroom</a></li><li><a>Careers</a></li>
+        <li><a>Terms of use</a></li><li><a>Privacy policy</a></li></ul></div>
+      <div><h4>Get help</h4><ul>
+        <li><a>Safety</a></li><li><a>Articles &amp; Guides</a></li><li><a>Help Center</a></li></ul></div>
+      <div><h4>Discover</h4><ul>
+        <li><a>HomePay — Nanny tax</a></li><li><a>List your center</a></li>
+        <li><a>Care for business</a></li><li><a>Cost guides</a></li></ul></div>
+      <div><h4>For families</h4><ul>
+        <li><a>Child care</a></li><li><a>Senior care</a></li><li><a>Pet care</a></li>
+        <li><a>Housekeepers</a></li><li><a>Tutors</a></li></ul></div>
+    </div>
+    <div class="care-fbot">
+      <span>© 2007–2026 Care.com, Inc. — benchmark recreation for study.</span>
+      <span class="care-badge"><span>App Store</span><span>Google Play</span></span>
+    </div>
+  </div></footer>
+
+</div>
+</div>
+
+<!-- ================= SWEEPSOUTH ================= -->
+<div id="view-sweep" class="view">
+<div class="sweep">
+
+  <nav class="sweep-nav"><div class="wrap"><div class="row">
+    <div class="sweep-logo">Sweep<b>South</b></div>
+    <div class="sweep-links">
+      <a href="#">Services</a><a href="#">Placements</a>
+      <a href="#">MyHome Hub</a><a href="#">Become a worker</a>
+    </div>
+    <div class="right">
+      <a href="#" class="sweep-login">Log In</a>
+      <a href="#" class="pill btn-pri">Sign Up</a>
+    </div>
+  </div></div></nav>
+
+  <header class="sweep-hero"><div class="wrap"><div class="row">
+    <div>
+      <h1>All the help <span>your home</span> needs.</h1>
+      <p class="lead">Connect with a trusted SweepStar and enjoy a well-looked-after home. Book a one-time clean or schedule a recurring service.</p>
+      <div class="sweep-chips">
+        <span>Indoor Cleaning</span><span>Outdoor Services</span><span>Office Cleaning</span>
+        <span>Laundry &amp; Ironing</span><span>Airbnb Cleaning</span><span>Elder Care</span>
+      </div>
+      <div class="cta">
+        <a href="#" class="pill btn-pri">Book a Service</a>
+        <a href="#" class="pill btn-ghost">Find Full-Time Help</a>
+        <span class="sweep-worker">Are you a worker? <a href="#">Apply Now</a></span>
+      </div>
+    </div>
+    <div class="sweep-heroart">
+      <div class="face">🧽</div>
+      <div class="badge b1">⭐ Vetted &amp; rated</div>
+      <div class="badge b2">🛡️ Insured bookings</div>
+    </div>
+  </div></div></header>
+
+  <section class="sec"><div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">What we offer</span>
+      <h2>More than just a home services platform.</h2>
+      <p>Whether you need a quick clean or full-time help, we connect you with reliable professionals you can trust.</p>
+    </div>
+    <div class="sweep-offer">
+      <div class="sweep-ocard"><div class="ic">📅</div><h3>Bookings</h3>
+        <p>Book trusted professionals for cleaning, laundry, outdoor tasks and more — one-time or recurring.</p><a>Book now →</a></div>
+      <div class="sweep-ocard"><div class="ic">🤝</div><h3>Placements</h3>
+        <p>Personalised placements for families looking to hire trusted, full-time support at home.</p><a>Learn more →</a></div>
+      <div class="sweep-ocard"><div class="ic">📱</div><h3>MyHome Hub</h3>
+        <p>Manage your own private domestic worker via the app — set the pay, they get the full amount.</p><a>Explore →</a></div>
+    </div>
+  </div></section>
+
+  <section class="sec sweep-steps"><div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">How it works</span>
+      <h2>Getting your home in order has never been easier.</h2>
+    </div>
+    <div class="sweep-steprow">
+      <div class="sweep-step"><div class="n">1</div><h3>Select your service</h3>
+        <p>Choose what you need — from a deep indoor clean to laundry, gardening or elder care.</p></div>
+      <div class="sweep-step"><div class="n">2</div><h3>Match with a SweepStar</h3>
+        <p>We pair you with an experienced, vetted and rated professional in your area.</p></div>
+      <div class="sweep-step"><div class="n">3</div><h3>Manage on the app</h3>
+        <p>Track, reschedule and pay for your booking online or in the SweepSouth app.</p></div>
+    </div>
+  </div></section>
+
+  <section class="sec"><div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">Our SweepStars</span>
+      <h2>Meet some of your SweepStars.</h2>
+      <p>Experienced, vetted and rated — ready to take care of your home.</p>
+    </div>
+    <div class="sweep-stars">
+      <div class="sweep-star">
+        <div class="ph" style="background:linear-gradient(150deg,#1fc6b6,#0e9c90)">👩🏾</div>
+        <div class="body"><div class="tag">Indoor</div><h3>Annah S.</h3>
+          <q>“Professional attitude, pleasant, and a thorough clean every time.”</q>
+          <div class="rate">★★★★★</div></div>
+      </div>
+      <div class="sweep-star">
+        <div class="ph" style="background:linear-gradient(150deg,#ff8a7a,#ff6b5b)">👨🏿</div>
+        <div class="body"><div class="tag">Outdoor</div><h3>Justin M.</h3>
+          <q>“Worked professionally and thoroughly, with a wonderful attitude.”</q>
+          <div class="rate">★★★★★</div></div>
+      </div>
+      <div class="sweep-star">
+        <div class="ph" style="background:linear-gradient(150deg,#5ec8e0,#2f9fd6)">👩🏽</div>
+        <div class="body"><div class="tag">Indoor</div><h3>Tendai M.</h3>
+          <q>“So much effort — she even cleaned the mirrors and the fridge!”</q>
+          <div class="rate">★★★★★</div></div>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="sec sweep-svc"><div class="wrap">
+    <div class="sec-head center"><h2>Choose the service you need.</h2></div>
+    <div class="sweep-svcgrid">
+      <a class="sweep-svcitem"><span class="e">🧴</span><div><b>Indoor Cleaning</b><span>3.5–10h top-to-bottom home clean</span></div></a>
+      <a class="sweep-svcitem"><span class="e">🌿</span><div><b>Outdoor Services</b><span>Garden &amp; outdoor maintenance</span></div></a>
+      <a class="sweep-svcitem"><span class="e">🏢</span><div><b>Office Cleaning</b><span>Half or full-day office clean</span></div></a>
+      <a class="sweep-svcitem"><span class="e">📦</span><div><b>Moving Cleaning</b><span>Move-in / move-out deep clean</span></div></a>
+      <a class="sweep-svcitem"><span class="e">👕</span><div><b>Laundry &amp; Ironing</b><span>Washed, ironed, ready to use</span></div></a>
+      <a class="sweep-svcitem"><span class="e">⚡</span><div><b>Express Cleaning</b><span>Quick 1–3h help with tasks</span></div></a>
+      <a class="sweep-svcitem"><span class="e">🧓</span><div><b>Elder Care</b><span>Safe, comfortable care at home</span></div></a>
+      <a class="sweep-svcitem"><span class="e">🏠</span><div><b>Airbnb Cleaning</b><span>Turnover cleans for rentals</span></div></a>
+      <a class="sweep-svcitem"><span class="e">🐾</span><div><b>Dog Walking</b><span>Walks &amp; outdoor pet care</span></div></a>
+    </div>
+  </div></section>
+
+  <section class="sec sweep-safe"><div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">Trust &amp; safety</span>
+      <h2>Safety and security is our top priority.</h2>
+    </div>
+    <div class="sweep-safegrid">
+      <div class="sweep-safeitem"><div class="ic">⭐</div><b>Ratings &amp; reviews</b><span>Feedback from other users on every SweepStar.</span></div>
+      <div class="sweep-safeitem"><div class="ic">🪪</div><b>Reference checks</b><span>Reference and background checks completed.</span></div>
+      <div class="sweep-safeitem"><div class="ic">🧭</div><b>2+ years experience</b><span>Required before joining the platform.</span></div>
+      <div class="sweep-safeitem"><div class="ic">🛡️</div><b>Insurance in place</b><span>A policy for customer peace of mind.</span></div>
+    </div>
+  </div></section>
+
+  <section class="sweep-work"><div class="wrap"><div class="row">
+    <div>
+      <h2>Want to work with SweepSouth?</h2>
+      <p>Become your own boss, choose your own schedule, and work in your preferred areas.</p>
+      <a href="#" class="pill btn-acc">Apply Now</a>
+    </div>
+    <div class="sweep-workart">💼</div>
+  </div></div></section>
+
+  <section class="sweep-partners"><div class="wrap">
+    <div class="lbl">Backed &amp; trusted by</div>
+    <div class="sweep-plogos">
+      <span>Naspers</span><span>Airbnb</span><span>Momentum</span>
+      <span>UCOOK</span><span>Dell Foundation</span><span>UCount</span>
+    </div>
+  </div></section>
+
+  <footer class="sweep-foot"><div class="wrap">
+    <div class="sweep-fgrid">
+      <div>
+        <div class="logo">Sweep<b>South</b></div>
+        <p class="blurb">South Africa’s home services platform — connecting homes with trusted, vetted professionals.</p>
+      </div>
+      <div><h4>Services</h4><ul>
+        <li><a>Indoor Cleaning</a></li><li><a>Laundry &amp; Ironing</a></li>
+        <li><a>Elder Care</a></li><li><a>Airbnb Cleaning</a></li></ul></div>
+      <div><h4>Company</h4><ul>
+        <li><a>About Us</a></li><li><a>Careers</a></li>
+        <li><a>Blog</a></li><li><a>Refer a Friend</a></li></ul></div>
+      <div><h4>Support</h4><ul>
+        <li><a>Help Centre</a></li><li><a>Contact Us</a></li>
+        <li><a>Privacy Policy</a></li><li><a>Terms</a></li></ul></div>
+    </div>
+    <div class="sweep-fbot">
+      <span>© 2026 Shift South (Pty) Ltd — benchmark recreation for study.</span>
+      <span>Apply as a Worker · Buy a Voucher · Locations</span>
+    </div>
+  </div></footer>
+
+</div>
+</div>
+
+<script>
+  function show(which){
+    ['kanora','care','sweep'].forEach(function(v){
+      document.getElementById('view-'+v).classList.toggle('active', which===v);
+      document.getElementById('tab-'+v).classList.toggle('active', which===v);
+    });
+    window.scrollTo({top:0,behavior:'auto'});
+  }
+
+  function knFmt(n){return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g,' ');}
+  function knFreq(btn){var bs=btn.parentNode.querySelectorAll('button');for(var i=0;i<bs.length;i++)bs[i].classList.remove('on');btn.classList.add('on');knSim();}
+  function knSim(){var s=document.getElementById('sim-service');if(!s)return;var rate=+s.value;var hours=+document.getElementById('sim-hours').value;var f=document.querySelector('#sim-freq button.on');var mult=+f.getAttribute('data-mult');var per=f.getAttribute('data-per');var total=rate*hours*mult;document.getElementById('sim-price').textContent=knFmt(total);document.getElementById('sim-per').textContent='/ '+per;}
+  knSim();
+
+</script>
+</body>
+</html>
