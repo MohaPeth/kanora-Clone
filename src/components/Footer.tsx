@@ -63,7 +63,7 @@ const villes = [
 
 function LinkList({ title, links }: { title: string; links: string[] }) {
   return (
-    <div>
+    <div suppressHydrationWarning>
       <h4 className="font-grotesk text-[15px] font-bold text-kanora-orange">{title}</h4>
       <ul className="mt-3 space-y-2">
         {links.map((l) => (
@@ -89,7 +89,7 @@ function Accordion({
 }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="border-t border-white/10 py-5">
+    <div className="border-t border-white/10 py-5" suppressHydrationWarning>
       <button
         onClick={() => setOpen((o) => !o)}
         className="flex w-full items-center justify-between text-left"
@@ -99,8 +99,13 @@ function Accordion({
           className={`h-5 w-5 text-kanora-orange transition-transform ${open ? "rotate-180" : ""}`}
         />
       </button>
-      <div className={`grid transition-all duration-300 ${open ? "mt-4 grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
-        <div className="overflow-hidden">{children}</div>
+      <div
+        className={`grid transition-all duration-300 ${open ? "mt-4 grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
+        suppressHydrationWarning
+      >
+        <div className="overflow-hidden" suppressHydrationWarning>
+          {children}
+        </div>
       </div>
     </div>
   );
@@ -108,8 +113,8 @@ function Accordion({
 
 export function Footer() {
   return (
-    <footer className="bg-kanora-ink text-white">
-      <div className="mx-auto w-full max-w-[1200px] px-5 py-14 md:px-8">
+    <footer className="bg-kanora-ink text-white" suppressHydrationWarning>
+      <div className="mx-auto w-full max-w-[1200px] px-5 py-14 md:px-8" suppressHydrationWarning>
         {/* Top columns */}
         <div className="grid gap-10 md:grid-cols-[1fr_1fr_1.4fr_auto]">
           <LinkList {...col1} />
@@ -159,7 +164,7 @@ export function Footer() {
         </div>
 
         {/* Popular topics */}
-        <div className="mt-10">
+        <div className="mt-10" suppressHydrationWarning>
           <Accordion title="Sujets populaires" defaultOpen>
             <div className="grid gap-8 pt-2 sm:grid-cols-2 lg:grid-cols-4">
               {popular.map((c) => (
@@ -198,7 +203,10 @@ export function Footer() {
         </div>
 
         {/* Legal */}
-        <div className="mt-10 space-y-4 border-t border-white/10 pt-8 text-[12px] leading-relaxed text-white/55">
+        <div
+          className="mt-10 space-y-4 border-t border-white/10 pt-8 text-[12px] leading-relaxed text-white/55"
+          suppressHydrationWarning
+        >
           <p>
             Les vérifications des antécédents ne sont pas toujours exhaustives et ne peuvent
             garantir une sécurité absolue. Pour en savoir plus, consultez notre page sécurité.
@@ -215,8 +223,11 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 md:flex-row">
-          <div className="flex items-center gap-2">
+        <div
+          className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 md:flex-row"
+          suppressHydrationWarning
+        >
+          <div className="flex items-center gap-2" suppressHydrationWarning>
             <KanoraMark className="h-7 w-7" />
             <span className="font-display text-[18px] font-bold text-white">Kanora</span>
           </div>

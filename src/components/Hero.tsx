@@ -1,11 +1,11 @@
 import { Header } from "./Header";
 
 const HERO_IMAGE =
-  "https://images.unsplash.com/photo-1508002366005-75a695ee2d17?auto=format&fit=crop&w=1600&q=80";
+  "https://images.unsplash.com/photo-1508002366005-75a695ee2d17?auto=format&fit=crop&w=2000&q=80";
 
 export function Hero() {
   return (
-    <section className="relative h-[86vh] max-h-[760px] min-h-[560px] w-full overflow-hidden">
+    <section className="relative h-screen min-h-[640px] w-full overflow-hidden">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={HERO_IMAGE}
@@ -13,7 +13,7 @@ export function Hero() {
         className="absolute inset-0 h-full w-full object-cover"
       />
 
-      {/* Subtle left gradient for text legibility */}
+      {/* Left gradient for text legibility over the photo */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-black/5 to-transparent" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent" />
 
