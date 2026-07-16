@@ -7,6 +7,7 @@ import { FreeSearch } from "@/components/FreeSearch";
 import { Comparison } from "@/components/Comparison";
 import { PricingSimulator } from "@/components/PricingSimulator";
 import { Community } from "@/components/Community";
+import { Acteurs } from "@/components/Acteurs";
 import { CTA } from "@/components/CTA";
 import { Footer } from "@/components/Footer";
 import { useReveal } from "@/hooks/useReveal";
@@ -23,6 +24,7 @@ export default function Home() {
       <Comparison />
       <PricingSimulator />
       <Community />
+      <Acteurs />
       <CTA />
       <Footer />
     </main>

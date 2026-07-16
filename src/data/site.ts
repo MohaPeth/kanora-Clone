@@ -9,6 +9,7 @@
  *   /cuisine.png         → Service Cuisine
  *   /garde-enfants.jpg   → Service Garde d'enfants
  *   /limites.jpg         → FreeSearch (« Le bouche à oreille… »)
+ *   /acteurs.png         → Section Acteurs
  *   /testimonials/*.jpg  → Témoignages
  *
  * Sections encore en Unsplash (à remplacer quand les assets seront prêts) :
@@ -182,19 +183,23 @@ export const freeSearch = {
 
 export const comparison = {
   title: "L'aide à domicile n'est pas un endroit pour couper les coins ronds",
-  columnKanora: "Kanora",
-  columnOther: "Bouche à oreille et réseaux sociaux",
   ctaLabel: "Réserver",
   ctaHref: "#",
-  /** Clés d'icônes résolues dans Comparison.tsx */
-  features: [
-    { icon: "ShieldCheck", label: "Vérification des antécédents" },
-    { icon: "GraduationCap", label: "Formation continue des KaNora Ladies" },
-    { icon: "Star", label: "Avis et notes des familles" },
-    { icon: "CreditCard", label: "Paiement sécurisé en ligne" },
-    { icon: "HeartHandshake", label: "Encadrement continu par l'équipe Kanora" },
-    { icon: "BadgePercent", label: "Sans frais cachés" },
-  ],
+  video: {
+    youtubeId: "EYUa2eIOoGs",
+    title: "Découvrez Kanora en vidéo",
+  },
+} as const;
+
+/* -------------------- Acteurs -------------------- */
+
+export const acteurs = {
+  title: "Celles et ceux qui font Kanora",
+  subtitle:
+    "Fondateurs, formatrices et KaNora Ladies : une communauté animée par nos valeurs — innovation, connexion, respect, excellence et impact.",
+  image: "/acteurs.png",
+  imageAlt:
+    "Les acteurs de Kanora : équipe, formatrices et KaNora Ladies, et les valeurs Innovation, Connexion, Impact, Respect, Excellence",
 } as const;
 
 /* -------------------- Tarifs -------------------- */

@@ -1,24 +1,53 @@
-import {
-  BadgePercent,
-  Check,
-  CreditCard,
-  GraduationCap,
-  HeartHandshake,
-  ShieldCheck,
-  Star,
-  X,
-  type LucideIcon,
-} from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { Play } from "lucide-react";
 import { comparison } from "@/data/site";
 
-const iconMap: Record<string, LucideIcon> = {
-  ShieldCheck,
-  GraduationCap,
-  Star,
-  CreditCard,
-  HeartHandshake,
-  BadgePercent,
-};
+const { youtubeId, title: videoTitle } = comparison.video;
+
+function VideoPreview() {
+  const [playing, setPlaying] = useState(false);
+  const [thumb, setThumb] = useState(
+    `https://i.ytimg.com/vi/${youtubeId}/maxresdefault.jpg`
+  );
+
+  if (playing) {
+    return (
+      <iframe
+        className="absolute inset-0 h-full w-full"
+        src={`https://www.youtube.com/embed/${youtubeId}?autoplay=1&rel=0`}
+        title={videoTitle}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={() => setPlaying(true)}
+      aria-label={`Lire la vidéo : ${videoTitle}`}
+      className="group absolute inset-0 h-full w-full"
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={thumb}
+        alt={videoTitle}
+        onError={() => setThumb(`https://i.ytimg.com/vi/${youtubeId}/hqdefault.jpg`)}
+        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+      <span className="absolute left-1/2 top-1/2 grid h-[74px] w-[74px] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-kanora-orange text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
+        <Play className="ml-1 h-8 w-8" fill="currentColor" strokeWidth={0} />
+      </span>
+      <span className="absolute bottom-5 left-5 right-5 text-left font-display text-[20px] font-bold text-white drop-shadow-sm sm:text-[24px]">
+        {videoTitle}
+      </span>
+    </button>
+  );
+}
 
 export function Comparison() {
   return (
@@ -29,61 +58,9 @@ export function Comparison() {
         </h2>
 
         <div className="reveal mx-auto mt-12 max-w-[820px] overflow-hidden rounded-[28px] bg-white shadow-[0_10px_40px_rgba(36,23,18,0.08)]">
-          <div className="grid grid-cols-[1fr_96px_96px] sm:grid-cols-[1fr_150px_150px]">
-            {/* Header */}
-            <div className="p-5" />
-            <div className="flex items-center justify-center rounded-t-[22px] bg-kanora-orange px-2 py-6 text-center">
-              <span className="font-display text-[15px] font-bold leading-tight text-white sm:text-[18px]">
-                {comparison.columnKanora}
-              </span>
-            </div>
-            <div className="flex items-center justify-center px-2 py-6 text-center">
-              <span className="font-grotesk text-[12px] font-semibold leading-tight text-neutral-500 sm:text-[14px]">
-                {comparison.columnOther}
-              </span>
-            </div>
-
-            {/* Rows */}
-            {comparison.features.map((f, i) => {
-              const Icon = iconMap[f.icon];
-              const last = i === comparison.features.length - 1;
-              return (
-                <div key={f.label} className="contents">
-                  <div className="flex items-center gap-3 border-t border-neutral-100 px-5 py-4">
-                    {Icon && (
-                      <Icon className="h-6 w-6 shrink-0 text-kanora-orange" strokeWidth={1.7} />
-                    )}
-                    <span className="font-grotesk text-[14px] font-medium text-kanora-ink sm:text-[16px]">
-                      {f.label}
-                    </span>
-                  </div>
-                  <div
-                    className={`flex items-center justify-center bg-kanora-orange/10 ${
-                      last ? "rounded-b-[22px] pb-6" : ""
-                    }`}
-                  >
-                    <span className="grid h-6 w-6 place-items-center rounded-full bg-kanora-orange">
-                      <Check className="h-4 w-4 text-white" strokeWidth={3} />
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-center border-t border-neutral-100">
-                    <span className="grid h-6 w-6 place-items-center rounded-full bg-neutral-300">
-                      <X className="h-4 w-4 text-white" strokeWidth={3} />
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
+          <div className="relative aspect-video w-full">
+            <VideoPreview />
           </div>
-        </div>
-
-        <div className="mt-10 flex justify-center">
-          <a
-            href={comparison.ctaHref}
-            className="rounded-full bg-kanora-ink px-12 py-4 font-grotesk text-[17px] font-semibold text-white transition-all hover:bg-kanora-ink/85 active:scale-[0.98]"
-          >
-            {comparison.ctaLabel}
-          </a>
         </div>
       </div>
     </section>

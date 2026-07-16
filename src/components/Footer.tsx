@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { ChevronDown, Facebook, Instagram, Youtube } from "lucide-react";
-import { KanoraMark } from "./Logo";
 import { footer } from "@/data/site";
 
 function LinkList({ title, links }: { title: string; links: readonly string[] }) {
@@ -163,9 +162,13 @@ export function Footer() {
           className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 md:flex-row"
           suppressHydrationWarning
         >
-          <div className="flex items-center gap-2" suppressHydrationWarning>
-            <KanoraMark className="h-7 w-7" />
-            <span className="font-display text-[18px] font-bold text-white">Kanora</span>
+          <div className="flex items-center" suppressHydrationWarning>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo.webp"
+              alt="Kanora"
+              className="h-12 w-auto object-contain brightness-0 invert"
+            />
           </div>
           <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[13px] text-white/70">
             {footer.legalLinks.map((l) => (
