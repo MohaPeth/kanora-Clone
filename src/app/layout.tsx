@@ -22,6 +22,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: site.seo.title,
   description: site.seo.description,
+  icons: {
+    icon: [{ url: "/logo.webp", type: "image/webp" }],
+    shortcut: [{ url: "/logo.webp", type: "image/webp" }],
+    apple: [{ url: "/logo.webp" }],
+  },
 };
 
 export default function RootLayout({
