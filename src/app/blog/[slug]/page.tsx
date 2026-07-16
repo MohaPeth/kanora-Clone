@@ -63,7 +63,7 @@ export default async function ArticlePage({
           <img
             src={article.image}
             alt={("imageAlt" in article && article.imageAlt) || article.title}
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute inset-0 h-full w-full object-cover object-[center_20%]"
           />
         ) : (
           <div
@@ -192,7 +192,7 @@ export default async function ArticlePage({
                         <img
                           src={a.image}
                           alt={("imageAlt" in a && a.imageAlt) || a.title}
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          className="h-full w-full object-cover object-[center_20%] transition-transform duration-500 group-hover:scale-105"
                         />
                       ) : (
                         <div
