@@ -2,20 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { Lock } from "lucide-react";
-
-const services = [
-  { label: "Ménage", rate: 3000 },
-  { label: "Cuisine", rate: 3500 },
-  { label: "Garde d'enfants", rate: 4000 },
-];
-
-const hoursOptions = [2, 3, 4, 6, 8];
-
-const frequencies = [
-  { label: "Ponctuel", mult: 1, per: "intervention" },
-  { label: "1x / semaine", mult: 4, per: "mois" },
-  { label: "2x / semaine", mult: 8, per: "mois" },
-];
+import { pricing, services } from "@/data/site";
 
 function formatFcfa(n: number) {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -26,22 +13,22 @@ export function PricingSimulator() {
   const [hours, setHours] = useState(3);
   const [freqIndex, setFreqIndex] = useState(0);
 
-  const service = services[serviceIndex];
-  const freq = frequencies[freqIndex];
+  const service = services.items[serviceIndex];
+  const freq = pricing.frequencies[freqIndex];
   const total = useMemo(
     () => service.rate * hours * freq.mult,
     [service.rate, hours, freq.mult]
   );
 
   return (
-    <section className="sec bg-white py-16 md:py-24">
+    <section id="tarifs" className="sec bg-white py-16 md:py-24">
       <div className="kanora-container">
         <div className="reveal mx-auto max-w-[640px] text-center">
           <span className="mb-3 block font-grotesk text-[13px] font-bold uppercase tracking-[0.12em] text-kanora-orange">
-            Simulateur de tarifs
+            {pricing.eyebrow}
           </span>
           <h2 className="font-display text-[34px] font-bold text-kanora-ink sm:text-[44px] md:text-[52px]">
-            Estimez le coût de votre service
+            {pricing.title}
           </h2>
         </div>
 
@@ -57,8 +44,8 @@ export function PricingSimulator() {
                 onChange={(e) => setServiceIndex(Number(e.target.value))}
                 className="w-full rounded-xl border border-black/10 px-4 py-3 font-grotesk text-[15px] text-kanora-ink"
               >
-                {services.map((s, i) => (
-                  <option key={s.label} value={i}>
+                {services.items.map((s, i) => (
+                  <option key={s.id} value={i}>
                     {s.label}
                   </option>
                 ))}
@@ -74,7 +61,7 @@ export function PricingSimulator() {
                 onChange={(e) => setHours(Number(e.target.value))}
                 className="w-full rounded-xl border border-black/10 px-4 py-3 font-grotesk text-[15px] text-kanora-ink"
               >
-                {hoursOptions.map((h) => (
+                {pricing.hoursOptions.map((h) => (
                   <option key={h} value={h}>
                     {h} heures{h === 8 ? " (journée)" : ""}
                   </option>
@@ -87,7 +74,7 @@ export function PricingSimulator() {
                 Fréquence
               </label>
               <div className="flex flex-wrap gap-2">
-                {frequencies.map((f, i) => (
+                {pricing.frequencies.map((f, i) => (
                   <button
                     key={f.label}
                     onClick={() => setFreqIndex(i)}
@@ -117,13 +104,13 @@ export function PricingSimulator() {
             </div>
             <div className="mt-4 flex items-center gap-2 text-[13.5px] leading-relaxed text-white/85">
               <Lock className="h-4 w-4 shrink-0" />
-              Aucun frais caché. Vous savez exactement ce que vous payez.
+              {pricing.guarantee}
             </div>
             <a
-              href="#"
+              href={pricing.ctaHref}
               className="mt-6 inline-block self-start rounded-full bg-kanora-orange px-8 py-3.5 text-center font-grotesk text-[15px] font-semibold text-white transition-all hover:bg-kanora-orange-hover active:scale-[0.98]"
             >
-              Réserver maintenant
+              {pricing.ctaLabel}
             </a>
           </div>
         </div>

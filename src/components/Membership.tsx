@@ -2,9 +2,15 @@
 
 import { useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Heart, Search, Star } from "lucide-react";
+import { howItWorks } from "@/data/site";
 
-const CHOOSE_IMG =
-  "https://images.unsplash.com/photo-1651688729724-bafbf0935462?auto=format&fit=crop&w=900&q=80";
+type Caregiver = (typeof howItWorks.phoneMock.caregivers)[number];
+type Pill = {
+  badge?: string;
+  badgeColor?: string;
+  title: string;
+  sub?: string;
+};
 
 /* -------------------- Phone mockups -------------------- */
 
@@ -19,7 +25,7 @@ function CaregiverRow({
   loc: string;
   rate: string;
   note?: string;
-  tags?: string[];
+  tags?: readonly string[];
 }) {
   return (
     <div className="rounded-2xl bg-white p-3 shadow-sm ring-1 ring-black/5">
@@ -70,6 +76,8 @@ function CaregiverRow({
 }
 
 function PhoneMock() {
+  const { searchLabel, searchLoc, caregivers } = howItWorks.phoneMock;
+
   return (
     <div className="relative mx-auto w-[210px]">
       <div className="rounded-[2.2rem] border-[7px] border-neutral-900 bg-neutral-900 shadow-2xl">
@@ -87,8 +95,8 @@ function PhoneMock() {
             <div className="flex items-center gap-2 rounded-full bg-white px-3 py-2 shadow-sm ring-1 ring-black/5">
               <Search className="h-3.5 w-3.5 text-kanora-orange" />
               <div>
-                <p className="text-[11px] font-bold leading-none text-kanora-ink">Ménage</p>
-                <p className="text-[9px] leading-tight text-neutral-400">Dakar, Plateau</p>
+                <p className="text-[11px] font-bold leading-none text-kanora-ink">{searchLabel}</p>
+                <p className="text-[9px] leading-tight text-neutral-400">{searchLoc}</p>
               </div>
             </div>
             <div className="mt-2 flex items-center justify-between">
@@ -98,14 +106,16 @@ function PhoneMock() {
               <span className="text-[9px] font-medium text-kanora-orange-hover">Enregistrer</span>
             </div>
             <div className="mt-2 space-y-2">
-              <CaregiverRow
-                name="Aïcha D."
-                loc="Dakar, Almadies"
-                rate="1 500"
-                note="Recrutée par 5 familles du quartier"
-                tags={["Vérifiée", "Formée"]}
-              />
-              <CaregiverRow name="Fatou S." loc="Dakar, Mermoz · 3 ans d'expérience" rate="1 300" />
+              {caregivers.map((c: Caregiver) => (
+                <CaregiverRow
+                  key={c.name}
+                  name={c.name}
+                  loc={c.loc}
+                  rate={c.rate}
+                  note={"note" in c ? c.note : undefined}
+                  tags={"tags" in c ? c.tags : undefined}
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -113,52 +123,6 @@ function PhoneMock() {
     </div>
   );
 }
-
-/* -------------------- Carousel cards -------------------- */
-
-const slides = [
-  {
-    kind: "image" as const,
-    title: "Choisissez votre besoin",
-    desc: "Ménage, cuisine ou garde d'enfants, ponctuel ou récurrent.",
-  },
-  {
-    kind: "phone" as const,
-    bg: "bg-kanora-cream",
-    title: "Recevez votre KaNora Lady",
-    desc: "Formée, vérifiée et adaptée à votre foyer, en quelques clics.",
-  },
-  {
-    kind: "phone" as const,
-    bg: "bg-kanora-orange/10",
-    title: "Suivez et payez en ligne",
-    desc: "Simple, sécurisé, sans mauvaise surprise ni frais cachés.",
-  },
-];
-
-/* -------------------- Stat pills -------------------- */
-
-type Pill = { badge?: string; badgeColor?: string; title: string; sub?: string };
-
-const rowA: Pill[] = [
-  { badge: "+300", badgeColor: "bg-kanora-orange text-white", title: "KaNora Ladies", sub: "formées et vérifiées, mai 2026" },
-  { badge: "88%", badgeColor: "bg-kanora-orange/15 text-kanora-orange-hover", title: "Nouvelles compétences", sub: "développées grâce à Kanora" },
-  { title: "Ménage", sub: "un intérieur impeccable" },
-  { title: "Paiement sécurisé", sub: "en ligne, sans frais cachés" },
-  { title: "Dakar, Sénégal", sub: "notre ville de naissance" },
-  { title: "Formation continue", sub: "pour chaque KaNora Lady" },
-  { title: "Encadrement", sub: "assuré par l'équipe Kanora" },
-];
-
-const rowB: Pill[] = [
-  { badge: "81%", badgeColor: "bg-kanora-star/25 text-kanora-ink", title: "Qualité de vie", sub: "améliorée selon nos KaNora Ladies" },
-  { badge: "4.8★", badgeColor: "bg-kanora-orange/15 text-kanora-orange-hover", title: "Note moyenne", sub: "auprès des familles servies" },
-  { title: "Cuisine", sub: "des repas faits maison" },
-  { title: "Garde d'enfants", sub: "une présence rassurante" },
-  { title: "Vérification", sub: "des antécédents, systématique" },
-  { title: "Réservation", sub: "simple, en quelques clics" },
-  { title: "Entreprise sociale", sub: "au service des familles et des KaNora Ladies" },
-];
 
 function PillCard({ p }: { p: Pill }) {
   return (
@@ -180,7 +144,21 @@ function PillCard({ p }: { p: Pill }) {
   );
 }
 
-function Marquee({ items, dir }: { items: Pill[]; dir: "left" | "right" }) {
+function PartnerCard({ name, logo }: { name: string; logo: string }) {
+  return (
+    <div className="mx-2 flex h-[72px] w-[160px] shrink-0 items-center justify-center rounded-2xl bg-white px-5 py-3 shadow-[0_2px_16px_rgba(36,23,18,0.08)] ring-1 ring-black/[0.03]">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={logo}
+        alt={name}
+        className="max-h-10 max-w-[128px] object-contain"
+        loading="lazy"
+      />
+    </div>
+  );
+}
+
+function Marquee({ items, dir }: { items: readonly Pill[]; dir: "left" | "right" }) {
   const doubled = [...items, ...items];
   return (
     <div className="marquee-paused overflow-hidden py-2">
@@ -196,18 +174,39 @@ function Marquee({ items, dir }: { items: Pill[]; dir: "left" | "right" }) {
   );
 }
 
+function PartnersMarquee({
+  partners,
+}: {
+  partners: readonly { name: string; logo: string }[];
+}) {
+  const doubled = [...partners, ...partners];
+  return (
+    <div className="marquee-paused overflow-hidden py-2">
+      <div
+        className="flex w-max animate-marquee-right"
+        style={{ ["--marquee-duration" as string]: "56s" }}
+      >
+        {doubled.map((p, i) => (
+          <PartnerCard key={`${p.name}-${i}`} name={p.name} logo={p.logo} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* -------------------- Section -------------------- */
 
 export function Membership() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+  const slides = howItWorks.steps;
 
   const scrollTo = (i: number) => {
     const track = trackRef.current;
     if (!track) return;
     const child = track.children[i] as HTMLElement | undefined;
     if (child) {
-      track.scrollTo({ left: child.offsetLeft - 16, behavior: "smooth" });
+      track.scrollTo({ left: child.offsetLeft, behavior: "smooth" });
       setActive(i);
     }
   };
@@ -215,30 +214,30 @@ export function Membership() {
   const onScroll = () => {
     const track = trackRef.current;
     if (!track) return;
-    const i = Math.round(track.scrollLeft / (track.scrollWidth / slides.length));
-    setActive(Math.min(i, slides.length - 1));
+    const i = Math.round(track.scrollLeft / track.clientWidth);
+    setActive(Math.min(Math.max(i, 0), slides.length - 1));
   };
 
   return (
     <section className="overflow-hidden bg-white py-16 md:py-24">
       <div className="kanora-container">
         <h2 className="reveal text-center font-display text-[34px] font-bold text-kanora-ink sm:text-[44px] md:text-[52px]">
-          Une aide à domicile fiable, en 3 étapes
+          {howItWorks.title}
         </h2>
 
-        {/* Carousel */}
+        {/* Carousel / grid */}
         <div className="relative mt-12">
           <button
             aria-label="Précédent"
             onClick={() => scrollTo(Math.max(0, active - 1))}
-            className="absolute -left-2 top-1/2 z-10 hidden -translate-y-1/2 place-items-center rounded-full bg-white p-3 shadow-lg ring-1 ring-black/5 transition hover:scale-105 md:grid"
+            className="absolute -left-1 top-[160px] z-10 grid -translate-y-1/2 place-items-center rounded-full bg-white p-2.5 shadow-lg ring-1 ring-black/5 transition hover:scale-105 md:hidden"
           >
             <ChevronLeft className="h-5 w-5 text-kanora-orange" />
           </button>
           <button
             aria-label="Suivant"
             onClick={() => scrollTo(Math.min(slides.length - 1, active + 1))}
-            className="absolute -right-2 top-1/2 z-10 hidden -translate-y-1/2 place-items-center rounded-full bg-white p-3 shadow-lg ring-1 ring-black/5 transition hover:scale-105 md:grid"
+            className="absolute -right-1 top-[160px] z-10 grid -translate-y-1/2 place-items-center rounded-full bg-white p-2.5 shadow-lg ring-1 ring-black/5 transition hover:scale-105 md:hidden"
           >
             <ChevronRight className="h-5 w-5 text-kanora-orange" />
           </button>
@@ -246,25 +245,29 @@ export function Membership() {
           <div
             ref={trackRef}
             onScroll={onScroll}
-            className="no-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-2"
+            className="no-scrollbar flex snap-x snap-mandatory gap-0 overflow-x-auto scroll-smooth pb-2 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:pb-0"
           >
             {slides.map((s) => (
               <div
                 key={s.title}
-                className="w-[85%] shrink-0 snap-center sm:w-[46%] lg:w-[31.5%]"
+                className="w-full min-w-full shrink-0 snap-start md:w-auto md:min-w-0 md:shrink"
               >
                 <div className="flex h-[360px] items-end overflow-hidden rounded-[26px]">
                   {s.kind === "image" ? (
                     <div className="relative h-full w-full">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={CHOOSE_IMG} alt="Famille choisissant un service Kanora" className="h-full w-full object-cover" />
+                      <img
+                        src={howItWorks.step1Image}
+                        alt="Famille choisissant un service Kanora"
+                        className="h-full w-full object-cover"
+                      />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
                       <div className="absolute bottom-0 left-0 p-5 text-white">
-                        <p className="font-display text-[26px] font-bold leading-none">Étape 1</p>
-                        <p className="mt-1 text-[13px] font-medium">Choisissez votre besoin</p>
-                        <p className="mt-2 text-[12px] text-white/85">
-                          Ménage, cuisine ou garde d'enfants, ponctuel ou récurrent
+                        <p className="font-display text-[26px] font-bold leading-none">
+                          {s.overlayTitle}
                         </p>
+                        <p className="mt-1 text-[13px] font-medium">{s.overlaySubtitle}</p>
+                        <p className="mt-2 text-[12px] text-white/85">{s.overlayDesc}</p>
                       </div>
                     </div>
                   ) : (
@@ -281,8 +284,8 @@ export function Membership() {
             ))}
           </div>
 
-          {/* dots */}
-          <div className="mt-6 flex justify-center gap-2">
+          {/* dots — mobile only */}
+          <div className="mt-6 flex justify-center gap-2 md:hidden">
             {slides.map((_, i) => (
               <button
                 key={i}
@@ -299,18 +302,18 @@ export function Membership() {
         {/* Book */}
         <div className="mt-10 flex justify-center">
           <a
-            href="#"
+            href={howItWorks.ctaHref}
             className="rounded-full bg-kanora-ink px-12 py-4 font-grotesk text-[17px] font-semibold text-white transition-all hover:bg-kanora-ink/85 active:scale-[0.98]"
           >
-            Réserver
+            {howItWorks.ctaLabel}
           </a>
         </div>
       </div>
 
       {/* Marquee pills */}
       <div className="mt-14 space-y-2">
-        <Marquee items={rowA} dir="left" />
-        <Marquee items={rowB} dir="right" />
+        <Marquee items={howItWorks.statsRowA} dir="left" />
+        <PartnersMarquee partners={howItWorks.partners} />
       </div>
     </section>
   );

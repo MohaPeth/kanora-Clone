@@ -1,67 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, Facebook, Instagram, Smartphone, Youtube } from "lucide-react";
+import { ChevronDown, Facebook, Instagram, Youtube } from "lucide-react";
 import { KanoraMark } from "./Logo";
+import { footer } from "@/data/site";
 
-const col1 = {
-  title: "À propos de Kanora",
-  links: ["Qui sommes nous", "Notre mission", "Notre impact", "Conditions d'utilisation", "Politique de confidentialité"],
-};
-const col2 = {
-  title: "Aide",
-  links: ["Sécurité", "Articles et guides", "Centre d'aide", "Nous contacter"],
-};
-const col3 = {
-  title: "Découvrir",
-  links: [
-    "Kanora pour les familles",
-    "Devenir KaNora Lady",
-    "Tarifs",
-    "Kanora pour les entreprises",
-    "Devenir partenaire",
-    "Guides de tarifs",
-  ],
-};
-
-const popular = [
-  {
-    title: "Ménage",
-    links: ["Ménage à domicile", "Nettoyage en profondeur", "Repassage", "Ménage récurrent", "Tarifs ménage"],
-  },
-  {
-    title: "Cuisine",
-    links: ["Repas faits maison", "Cuisine à domicile", "Cuisine ponctuelle", "Tarifs cuisine"],
-  },
-  {
-    title: "Garde d'enfants",
-    links: ["Garde d'enfants à domicile", "Assistante maternelle", "Baby sitting", "Tarifs garde d'enfants"],
-  },
-  {
-    title: "Ressources",
-    links: [
-      "Guides et ressources",
-      "Devenir KaNora Lady",
-      "Notre communauté",
-      "Notre impact",
-      "Simulateur de tarifs",
-    ],
-  },
-];
-
-const quartiers = [
-  "Plateau", "Almadies", "Ouakam", "Ngor", "Yoff", "Mermoz", "Sacré Cœur", "Point E",
-  "Liberté", "Grand Yoff", "Parcelles Assainies", "Sicap", "Fann", "Hann", "Dieuppeul",
-  "Castors", "Gueule Tapée", "Médina", "HLM", "Cambérène", "Ouest Foire", "Golf Sud",
-  "Patte d'Oie", "Grand Dakar", "Colobane",
-];
-
-const villes = [
-  "Rufisque", "Guédiawaye", "Pikine", "Thiès", "Saint Louis", "Mbour", "Diamniadio",
-  "Ziguinchor", "Kaolack", "Saly", "Touba", "Louga",
-];
-
-function LinkList({ title, links }: { title: string; links: string[] }) {
+function LinkList({ title, links }: { title: string; links: readonly string[] }) {
   return (
     <div suppressHydrationWarning>
       <h4 className="font-grotesk text-[15px] font-bold text-kanora-orange">{title}</h4>
@@ -112,36 +56,38 @@ function Accordion({
 }
 
 export function Footer() {
+  const [col1, col2, col3] = footer.columns;
+
   return (
     <footer className="bg-kanora-ink text-white" suppressHydrationWarning>
       <div className="mx-auto w-full max-w-[1200px] px-5 py-14 md:px-8" suppressHydrationWarning>
         {/* Top columns */}
         <div className="grid gap-10 md:grid-cols-[1fr_1fr_1.4fr_auto]">
-          <LinkList {...col1} />
-          <LinkList {...col2} />
-          <LinkList {...col3} />
+          <LinkList title={col1.title} links={col1.links} />
+          <LinkList title={col2.title} links={col2.links} />
+          <LinkList title={col3.title} links={col3.links} />
 
           <div className="flex flex-col gap-3">
-            <a
-              href="#"
-              className="flex items-center gap-3 rounded-xl bg-white/10 px-4 py-2.5 transition hover:bg-white/15"
-            >
-              <Smartphone className="h-6 w-6 shrink-0 text-white" />
-              <span className="leading-tight">
-                <span className="block text-[10px] text-white/60">Télécharger sur</span>
-                <span className="block text-[14px] font-semibold text-white">App Store</span>
-              </span>
-            </a>
-            <a
-              href="#"
-              className="flex items-center gap-3 rounded-xl bg-white/10 px-4 py-2.5 transition hover:bg-white/15"
-            >
-              <Smartphone className="h-6 w-6 shrink-0 text-white" />
-              <span className="leading-tight">
-                <span className="block text-[10px] text-white/60">Disponible sur</span>
-                <span className="block text-[14px] font-semibold text-white">Google Play</span>
-              </span>
-            </a>
+            {footer.appStores.map((store) => (
+              <a
+                key={store.name}
+                href={store.href}
+                className="flex items-center gap-3 rounded-xl bg-white/10 px-4 py-2.5 transition hover:bg-white/15"
+              >
+                <span className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-lg bg-white">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={store.logo}
+                    alt=""
+                    className="h-7 w-7 object-contain"
+                  />
+                </span>
+                <span className="leading-tight">
+                  <span className="block text-[10px] text-white/60">{store.caption}</span>
+                  <span className="block text-[14px] font-semibold text-white">{store.name}</span>
+                </span>
+              </a>
+            ))}
             <div className="mt-2 flex gap-3">
               {[Facebook, Instagram, Youtube].map((Icon, i) => (
                 <a
@@ -167,15 +113,15 @@ export function Footer() {
         <div className="mt-10" suppressHydrationWarning>
           <Accordion title="Sujets populaires" defaultOpen>
             <div className="grid gap-8 pt-2 sm:grid-cols-2 lg:grid-cols-4">
-              {popular.map((c) => (
-                <LinkList key={c.title} {...c} />
+              {footer.popular.map((c) => (
+                <LinkList key={c.title} title={c.title} links={c.links} />
               ))}
             </div>
           </Accordion>
 
           <Accordion title="Trouvez une KaNora Lady près de chez vous">
             <div className="flex flex-wrap gap-x-6 gap-y-2 pt-2">
-              {quartiers.map((q) => (
+              {footer.quartiers.map((q) => (
                 <a
                   key={q}
                   href="#"
@@ -189,7 +135,7 @@ export function Footer() {
 
           <Accordion title="Bientôt disponible au Sénégal">
             <div className="flex flex-wrap gap-x-6 gap-y-2 pt-2">
-              {villes.map((v) => (
+              {footer.villes.map((v) => (
                 <a
                   key={v}
                   href="#"
@@ -207,19 +153,9 @@ export function Footer() {
           className="mt-10 space-y-4 border-t border-white/10 pt-8 text-[12px] leading-relaxed text-white/55"
           suppressHydrationWarning
         >
-          <p>
-            Les vérifications des antécédents ne sont pas toujours exhaustives et ne peuvent
-            garantir une sécurité absolue. Pour en savoir plus, consultez notre page sécurité.
-          </p>
-          <p>
-            Kanora forme et encadre les KaNora Ladies présentes sur sa plateforme, mais
-            n&apos;emploie pas directement chaque professionnelle et n&apos;est pas responsable
-            de la conduite de chaque utilisateur du service.
-          </p>
-          <p>
-            Kanora est une marque de services à la personne. © 2026 Kanora Services. Tous droits
-            réservés.
-          </p>
+          {footer.legal.map((p) => (
+            <p key={p.slice(0, 40)}>{p}</p>
+          ))}
         </div>
 
         {/* Bottom bar */}
@@ -232,15 +168,13 @@ export function Footer() {
             <span className="font-display text-[18px] font-bold text-white">Kanora</span>
           </div>
           <ul className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[13px] text-white/70">
-            {["Conditions d'utilisation", "Politique de confidentialité", "Mentions légales", "Cookies"].map(
-              (l) => (
-                <li key={l}>
-                  <a href="#" className="hover:text-white">
-                    {l}
-                  </a>
-                </li>
-              )
-            )}
+            {footer.legalLinks.map((l) => (
+              <li key={l}>
+                <a href="#" className="hover:text-white">
+                  {l}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

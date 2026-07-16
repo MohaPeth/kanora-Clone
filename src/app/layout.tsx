@@ -3,6 +3,7 @@ import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
 import ClientBody from "./ClientBody";
 import Script from "next/script";
+import { site } from "@/data/site";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
@@ -19,9 +20,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Kanora : aide à domicile de confiance à Dakar",
-  description:
-    "Kanora forme, encadre et vous met en relation avec des KaNora Ladies vérifiées pour le ménage, la cuisine et la garde d'enfants à Dakar.",
+  title: site.seo.title,
+  description: site.seo.description,
 };
 
 export default function RootLayout({

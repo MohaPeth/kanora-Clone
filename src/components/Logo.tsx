@@ -24,16 +24,16 @@ export function Logo({
   className?: string;
 }) {
   return (
-    <a href="#" className={cn("flex items-center gap-2 select-none", className)}>
-      <KanoraMark className="h-9 w-9 shrink-0" />
-      <span
+    <a href="#" className={cn("flex items-center select-none", className)}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/logo.webp"
+        alt="Kanora"
         className={cn(
-          "font-display text-[27px] font-bold leading-none tracking-tight",
-          variant === "light" ? "text-white" : "text-kanora-ink"
+          "h-16 w-auto shrink-0 object-contain md:h-[72px]",
+          variant === "light" ? "drop-shadow-sm" : ""
         )}
-      >
-        Kanora
-      </span>
+      />
     </a>
   );
 }

@@ -102,6 +102,18 @@
   animation: float-slow 6s ease-in-out infinite;
 }
 
+/* Subtle horizontal nudge to hint a swipeable carousel */
+@keyframes swipe-hint {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(6px); }
+}
+.animate-swipe-hint {
+  animation: swipe-hint 1.6s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-swipe-hint { animation: none; }
+}
+
 /* Hide scrollbar for carousels */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

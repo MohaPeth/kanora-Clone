@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
-
-const menuLinks = ["Services", "Devenir KaNora Lady", "Tarifs", "À propos"];
+import { nav } from "@/data/site";
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -25,16 +24,16 @@ export function Header() {
 
         <div className="flex items-center gap-3 md:gap-6">
           <a
-            href="#"
+            href={nav.loginHref}
             className="hidden font-grotesk text-[17px] font-medium text-white drop-shadow-sm transition-colors hover:text-kanora-orange sm:block"
           >
-            Se connecter
+            {nav.loginLabel}
           </a>
           <a
-            href="#"
+            href={nav.ctaHref}
             className="rounded-full bg-kanora-orange px-6 py-3 font-grotesk text-[16px] font-semibold text-white shadow-sm transition-all hover:bg-kanora-orange-hover hover:shadow-md active:scale-[0.98]"
           >
-            Réserver
+            {nav.ctaLabel}
           </a>
         </div>
       </div>
@@ -67,29 +66,30 @@ export function Header() {
             </button>
           </div>
           <ul className="space-y-1">
-            {menuLinks.map((link) => (
-              <li key={link}>
+            {nav.links.map((link) => (
+              <li key={link.label}>
                 <a
-                  href="#"
+                  href={link.href}
+                  onClick={() => setOpen(false)}
                   className="block rounded-xl px-3 py-3 font-display text-[22px] font-semibold text-kanora-ink transition-colors hover:bg-kanora-orange/10"
                 >
-                  {link}
+                  {link.label}
                 </a>
               </li>
             ))}
           </ul>
           <div className="mt-8 space-y-3 border-t border-kanora-ink/10 pt-6">
             <a
-              href="#"
+              href={nav.loginHref}
               className="block rounded-full border border-kanora-ink/20 px-6 py-3 text-center font-grotesk font-semibold text-kanora-ink"
             >
-              Se connecter
+              {nav.loginLabel}
             </a>
             <a
-              href="#"
+              href={nav.ctaHref}
               className="block rounded-full bg-kanora-orange px-6 py-3 text-center font-grotesk font-semibold text-white"
             >
-              Réserver
+              {nav.ctaLabel}
             </a>
           </div>
         </nav>
