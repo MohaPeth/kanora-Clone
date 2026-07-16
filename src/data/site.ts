@@ -1,6 +1,6 @@
 /**
  * Contenu central du site Kanora.
- * Modifier les textes, tarifs et images ici — les composants les consomment.
+ * Modifier les textes, tarifs et images ici, les composants les consomment.
  *
  * Images locales (public/) :
  *   /logo.webp           → Logo (Header, menu)
@@ -92,7 +92,7 @@ export const howItWorks = {
   title: "Une aide à domicile fiable, en 3 étapes",
   ctaLabel: "Réserver",
   ctaHref: "#",
-  /** Image de l'étape 1 — à remplacer par un asset local */
+  /** Image de l'étape 1, à remplacer par un asset local */
   step1Image:
     "https://images.unsplash.com/photo-1651688729724-bafbf0935462?auto=format&fit=crop&w=900&q=80",
   steps: [
@@ -197,7 +197,7 @@ export const comparison = {
 export const acteurs = {
   title: "Celles et ceux qui font Kanora",
   subtitle:
-    "Fondateurs, formatrices et KaNora Ladies : une communauté animée par nos valeurs — innovation, connexion, respect, excellence et impact.",
+    "Fondateurs, formatrices et KaNora Ladies : une communauté animée par nos valeurs : innovation, connexion, respect, excellence et impact.",
   image: "/acteurs.png",
   imageAlt:
     "Les acteurs de Kanora : équipe, formatrices et KaNora Ladies, et les valeurs Innovation, Connexion, Impact, Respect, Excellence",
@@ -435,17 +435,17 @@ export const blog = {
     {
       slug: "inclusion-un-parcours",
       category: "Mission & Impact",
-      title: "Chez KaNora, l'inclusion n'est pas un mot — c'est un parcours",
+      title: "Chez KaNora, l'inclusion n'est pas un mot, c'est un parcours",
       chapo:
         "Un salaire, un compte, une compétence, une dignité retrouvée : voici comment nous construisons, pas à pas, une inclusion sociale et financière qui dure.",
       image: "/Blogs/article-1.jpg",
       imageAlt: "KaNora Ladies primées lors d'un événement KaNora",
       date: "",
       content: [
-        "Il ne suffit pas de donner un emploi à une jeune femme pour changer sa vie. Ce que nous avons compris, dès les premiers pas de KaNora, c'est que la véritable inclusion — sociale et financière — se construit dans la durée, brique par brique.",
-        "Dans un secteur historiquement informel, où le travail domestique reste souvent invisible, précaire et sans reconnaissance, notre mission est claire : transformer ces jeunes femmes en professionnelles respectées, valorisées et autonomes. Cela commence par l'inclusion sociale : offrir un emploi sûr, équitable, encadré par un vrai contrat, et redonner à ces jeunes femmes le pouvoir d'agir sur leur propre trajectoire. Pas de zone grise, pas d'incertitude — juste un cadre clair dans lequel elles peuvent se projeter.",
-        "Mais un emploi digne ne suffit pas s'il ne s'accompagne pas d'une autonomie financière réelle. C'est pourquoi nous plaçons l'inclusion économique au cœur de notre modèle : compétences techniques reconnues par des écoles d'État, éducation financière, et ouverture vers des opportunités entrepreneuriales pour celles qui souhaitent aller plus loin. Nous ne voulons pas seulement que nos KaNora Ladies gagnent un salaire — nous voulons qu'elles apprennent à le gérer, à l'épargner, à en faire un levier pour leurs propres ambitions.",
-        "Cette approche change fondamentalement la manière dont le travail domestique est perçu — par la société, par les familles employeuses, et surtout par les jeunes femmes elles-mêmes. Elles ne sont plus de simples exécutantes invisibles. Elles deviennent des professionnelles formées, un contrat en poche, une carrière en perspective.",
+        "Il ne suffit pas de donner un emploi à une jeune femme pour changer sa vie. Ce que nous avons compris, dès les premiers pas de KaNora, c'est que la véritable inclusion, sociale et financière, se construit dans la durée, brique par brique.",
+        "Dans un secteur historiquement informel, où le travail domestique reste souvent invisible, précaire et sans reconnaissance, notre mission est claire : transformer ces jeunes femmes en professionnelles respectées, valorisées et autonomes. Cela commence par l'inclusion sociale : offrir un emploi sûr, équitable, encadré par un vrai contrat, et redonner à ces jeunes femmes le pouvoir d'agir sur leur propre trajectoire. Pas de zone grise, pas d'incertitude, juste un cadre clair dans lequel elles peuvent se projeter.",
+        "Mais un emploi digne ne suffit pas s'il ne s'accompagne pas d'une autonomie financière réelle. C'est pourquoi nous plaçons l'inclusion économique au cœur de notre modèle : compétences techniques reconnues par des écoles d'État, éducation financière, et ouverture vers des opportunités entrepreneuriales pour celles qui souhaitent aller plus loin. Nous ne voulons pas seulement que nos KaNora Ladies gagnent un salaire : nous voulons qu'elles apprennent à le gérer, à l'épargner, à en faire un levier pour leurs propres ambitions.",
+        "Cette approche change fondamentalement la manière dont le travail domestique est perçu : par la société, par les familles employeuses, et surtout par les jeunes femmes elles-mêmes. Elles ne sont plus de simples exécutantes invisibles. Elles deviennent des professionnelles formées, un contrat en poche, une carrière en perspective.",
         "C'est cela, pour nous, une inclusion durable : celle qui ne se contente pas d'ouvrir une porte, mais qui donne les clés pour avancer, restaure la dignité, et permet à chacune de nos KaNora Ladies de bâtir, à son rythme, la vie qu'elle a choisie.",
       ],
     },
@@ -455,7 +455,7 @@ export const blog = {
       title:
         "De la sélection à l'évolution : le parcours qui transforme une candidate en professionnelle",
       chapo:
-        "Un entretien. Une formation. Un placement. Un accompagnement continu. Découvrez les quatre étapes qui font d'une jeune femme une KaNora Lady — et parfois, demain, une cheffe d'agence.",
+        "Un entretien. Une formation. Un placement. Un accompagnement continu. Découvrez les quatre étapes qui font d'une jeune femme une KaNora Lady, et parfois, demain, une cheffe d'agence.",
       image: "/Blogs/article-2.jpg",
       imageAlt: "KaNora Ladies en formation cuisine et travaux domestiques",
       date: "",
@@ -463,9 +463,9 @@ export const blog = {
         "Devenir une KaNora Lady, ce n'est pas simplement décrocher un emploi. C'est entamer un véritable parcours, pensé du premier jour jusqu'à l'évolution de carrière, pour construire à la fois l'avenir de chaque jeune femme et la qualité de notre service.",
         "Tout commence par le recrutement. Un entretien approfondi, un contrat clair, une inscription sur notre plateforme : dès cette première étape, nous posons des bases solides, loin de l'informel et de l'incertitude qui caractérisent trop souvent ce secteur.",
         "Vient ensuite la formation. C'est ici que nous investissons le plus, car nous savons que la compétence technique ne suffit pas. Nos KaNora Ladies sont formées par des écoles reconnues de l'État aux métiers de l'assistanat maternel et des travaux domestiques, mais aussi aux compétences humaines : communication, posture professionnelle, gestion du temps. C'est cette double formation qui fait la différence entre un emploi précaire et une véritable carrière.",
-        "Troisième étape : le placement. Nous ne mettons pas simplement une jeune femme en relation avec une famille — nous construisons une correspondance pensée entre ses compétences et les besoins réels du client, avec, derrière chaque placement, un vrai plan de carrière.",
+        "Troisième étape : le placement. Nous ne mettons pas simplement une jeune femme en relation avec une famille : nous construisons une correspondance pensée entre ses compétences et les besoins réels du client, avec, derrière chaque placement, un vrai plan de carrière.",
         "Enfin, et c'est peut-être l'étape la plus déterminante : l'accompagnement continu. Le parcours ne s'arrête jamais au placement. Nous assurons un suivi régulier, un soutien en cas de besoin, et surtout, de vraies possibilités d'évolution. Certaines de nos KaNora Ladies deviennent mentors pour les nouvelles recrues. D'autres, à terme, deviennent cheffes d'agence.",
-        "C'est cette progression — de la sélection à l'évolution — qui donne tout son sens à notre modèle. Nous ne formons pas seulement des travailleuses domestiques. Nous accompagnons des trajectoires, nous ouvrons des perspectives, et nous prouvons chaque jour qu'un métier considéré comme précaire peut devenir un véritable tremplin professionnel.",
+        "C'est cette progression, de la sélection à l'évolution, qui donne tout son sens à notre modèle. Nous ne formons pas seulement des travailleuses domestiques. Nous accompagnons des trajectoires, nous ouvrons des perspectives, et nous prouvons chaque jour qu'un métier considéré comme précaire peut devenir un véritable tremplin professionnel.",
         "C'est cela, la promesse KaNora : un parcours qui ne s'arrête jamais à l'emploi, mais qui commence avec lui.",
       ],
     },
@@ -475,7 +475,7 @@ export const blog = {
       title:
         "KaNora souffle sa première bougie : un an, 70 clients, 400 sourires retrouvés",
       chapo:
-        "En un an, une idée est devenue un mouvement — voici comment nous sommes passés de 26 KaNora Ladies à près de 400 vies transformées.",
+        "En un an, une idée est devenue un mouvement : voici comment nous sommes passés de 26 KaNora Ladies à près de 400 vies transformées.",
       image: "/Blogs/article-3.jpg",
       imageAlt:
         "Célébration du premier anniversaire de KaNora avec les KaNora Ladies",
@@ -485,7 +485,7 @@ export const blog = {
         "Il y a un an, avant notre cérémonie officielle, nous comptions 14 clients et 26 KaNora Ladies actives. Des chiffres modestes, mais qui portaient déjà en eux toute notre conviction : que le travail domestique mérite d'être reconnu, structuré, et valorisé. Le soir même de notre cérémonie, ce nombre de clients est passé à 34. Un signal fort que notre modèle répondait à un vrai besoin.",
         "Douze mois plus tard, le chemin parcouru dépasse ce que nous avions imaginé. Nous comptons aujourd'hui près de 70 clients et près de 400 KaNora Ladies qui, chaque jour, exercent leur métier avec fierté, dans un cadre sécurisé et respectueux. Des centaines de commandes honorées, des centaines de familles rassurées, et surtout, des centaines de trajectoires de vie qui prennent une autre direction.",
         "Mais KaNora, un an après, ce n'est plus seulement une agence de placement. Nous avons franchi une étape stratégique majeure en devenant un agrégateur d'agences, avec le lancement de notre toute première agence agrégée sur notre plateforme. C'est une évolution naturelle de notre mission : au-delà de nos propres recrutements, nous voulons structurer tout un secteur, en donnant à d'autres agences les outils, les standards et la crédibilité nécessaires pour, elles aussi, professionnaliser le travail domestique.",
-        "Ce premier anniversaire n'est pas un aboutissement. C'est une preuve de concept. La preuve que lorsqu'on donne à une jeune femme un contrat clair, une formation solide et un vrai accompagnement, elle ne se contente pas de travailler — elle se construit un avenir.",
+        "Ce premier anniversaire n'est pas un aboutissement. C'est une preuve de concept. La preuve que lorsqu'on donne à une jeune femme un contrat clair, une formation solide et un vrai accompagnement, elle ne se contente pas de travailler : elle se construit un avenir.",
         "Merci à chaque KaNora Lady, à chaque client, à chaque partenaire qui a fait de cette première année une réussite. La suite s'annonce encore plus grande.",
       ],
     },
@@ -495,18 +495,18 @@ export const blog = {
       title:
         "KaNora reconnue parmi 33 pépites d'Afrique de l'Ouest : une distinction qui nous porte plus loin",
       chapo:
-        "Être choisie parmi 33 organisations d'exception, recevoir deux distinctions majeures — voici ce que cette reconnaissance change vraiment pour KaNora et pour nos KaNora Ladies.",
+        "Être choisie parmi 33 organisations d'exception, recevoir deux distinctions majeures : voici ce que cette reconnaissance change vraiment pour KaNora et pour nos KaNora Ladies.",
       image: "/Blogs/article-4.png",
       imageAlt:
         "Cérémonie de graduation du Social Impact Incubator West Africa 2025",
       date: "",
       content: [
         "Il y a des moments où l'on comprend que le travail accompli a une résonance qui dépasse nos propres frontières. La graduation de la première cohorte du Social Impact Incubator West Africa a été l'un de ces moments pour KaNora.",
-        "Le SII West Africa, soutenu par la Segal Family Foundation, vient de célébrer la remise de diplômes de sa première cohorte : 33 organisations issues du Sénégal, du Bénin et du Togo, unies par une même conviction — que l'impact local peut changer un continent. Faire partie de cette cohorte est déjà un honneur. Mais ce que ce programme nous a apporté va bien au-delà d'une ligne sur notre parcours.",
-        "Grâce à ses quatre piliers — Capacités, Capital, Connexion et Communauté — nous ressortons de cette expérience profondément renforcés. Plus organisés. Plus solides. Plus opérationnels. Mieux armés pour porter notre mission, et surtout pour porter nos KaNora Ladies encore plus loin dans leur propre parcours.",
+        "Le SII West Africa, soutenu par la Segal Family Foundation, vient de célébrer la remise de diplômes de sa première cohorte : 33 organisations issues du Sénégal, du Bénin et du Togo, unies par une même conviction : que l'impact local peut changer un continent. Faire partie de cette cohorte est déjà un honneur. Mais ce que ce programme nous a apporté va bien au-delà d'une ligne sur notre parcours.",
+        "Grâce à ses quatre piliers (Capacités, Capital, Connexion et Communauté), nous ressortons de cette expérience profondément renforcés. Plus organisés. Plus solides. Plus opérationnels. Mieux armés pour porter notre mission, et surtout pour porter nos KaNora Ladies encore plus loin dans leur propre parcours.",
         "Et puis il y a eu ces deux distinctions qui nous ont particulièrement touchés.",
-        "L'Amplifier Award, d'abord. Quand une organisation choisit non seulement d'agir, mais de témoigner — de rendre visible ce qui est trop souvent tu, d'amplifier ce qui est ignoré — elle devient un pont entre une communauté et le monde. C'est exactement ce que nous nous efforçons de faire chaque jour : donner une voix à des femmes que la société regarde rarement, et raconter leur histoire là où elle n'aurait jamais pu parvenir seule.",
-        "Le SII Ambassador Award, ensuite, un honneur qui nous touche profondément. Cette distinction récompense l'organisation qui incarne le mieux la promesse de l'incubateur : clarté stratégique, courage organisationnel, ancrage dans la communauté et engagement indéfectible. La recevoir, parmi tant d'organisations remarquables, est une reconnaissance que nous portons avec une immense gratitude — et une responsabilité renouvelée.",
+        "L'Amplifier Award, d'abord. Quand une organisation choisit non seulement d'agir, mais de témoigner, de rendre visible ce qui est trop souvent tu, d'amplifier ce qui est ignoré, elle devient un pont entre une communauté et le monde. C'est exactement ce que nous nous efforçons de faire chaque jour : donner une voix à des femmes que la société regarde rarement, et raconter leur histoire là où elle n'aurait jamais pu parvenir seule.",
+        "Le SII Ambassador Award, ensuite, un honneur qui nous touche profondément. Cette distinction récompense l'organisation qui incarne le mieux la promesse de l'incubateur : clarté stratégique, courage organisationnel, ancrage dans la communauté et engagement indéfectible. La recevoir, parmi tant d'organisations remarquables, est une reconnaissance que nous portons avec une immense gratitude, et une responsabilité renouvelée.",
         "Cette reconnaissance n'est pas une fin en soi. C'est un tremplin. Elle nous rappelle pourquoi nous nous sommes lancés, et elle nous donne les moyens d'aller plus loin, plus vite, pour chaque jeune femme qui rejoint l'aventure KaNora.",
       ],
     },

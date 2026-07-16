@@ -284,7 +284,7 @@ export function Membership() {
             ))}
           </div>
 
-          {/* dots — mobile only */}
+          {/* dots - mobile only */}
           <div className="mt-6 flex justify-center gap-2 md:hidden">
             {slides.map((_, i) => (
               <button

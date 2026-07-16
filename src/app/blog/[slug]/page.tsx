@@ -29,9 +29,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const article = blog.articles.find((a) => a.slug === slug);
-  if (!article) return { title: "Article introuvable — Kanora" };
+  if (!article) return { title: "Article introuvable | Kanora" };
   return {
-    title: `${article.title} — Blog Kanora`,
+    title: `${article.title} | Blog Kanora`,
     description: article.chapo,
     openGraph: article.image
       ? { images: [{ url: article.image }] }
@@ -62,7 +62,7 @@ export default async function ArticlePage({
           /* eslint-disable-next-line @next/next/no-img-element */
           <img
             src={article.image}
-            alt={("imageAlt" in article && article.imageAlt) || article.title}
+            alt={article.imageAlt}
             className="absolute inset-0 h-full w-full object-cover object-[center_20%]"
           />
         ) : (
@@ -191,7 +191,7 @@ export default async function ArticlePage({
                         /* eslint-disable-next-line @next/next/no-img-element */
                         <img
                           src={a.image}
-                          alt={("imageAlt" in a && a.imageAlt) || a.title}
+                          alt={a.imageAlt}
                           className="h-full w-full object-cover object-[center_20%] transition-transform duration-500 group-hover:scale-105"
                         />
                       ) : (

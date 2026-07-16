@@ -48,7 +48,7 @@ function FeaturedTestimonial({ t }: { t: Testimonial }) {
         </blockquote>
         <p className="mt-4 font-grotesk text-[16px] font-semibold text-kanora-orange">
           {t.name}
-          <span className="font-medium text-neutral-500"> — {t.location}</span>
+          <span className="font-medium text-neutral-500">, {t.location}</span>
         </p>
       </div>
     </div>
