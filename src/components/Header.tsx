@@ -5,27 +5,38 @@ import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
 import { nav } from "@/data/site";
 
-export function Header() {
+export function Header({ variant = "overlay" }: { variant?: "overlay" | "solid" }) {
   const [open, setOpen] = useState(false);
+  const solid = variant === "solid";
 
   return (
-    <header className="absolute inset-x-0 top-0 z-50">
+    <header
+      className={
+        solid
+          ? "sticky top-0 z-50 border-b border-kanora-ink/10 bg-kanora-cream-2/95 backdrop-blur"
+          : "absolute inset-x-0 top-0 z-50"
+      }
+    >
       <div className="mx-auto flex w-full max-w-[1280px] items-center justify-between px-5 py-5 md:px-8">
         <div className="flex items-center gap-4 md:gap-6">
           <button
             aria-label="Ouvrir le menu"
             onClick={() => setOpen(true)}
-            className="grid h-7 w-8 place-items-center text-white drop-shadow-sm transition-transform hover:scale-105"
+            className={`grid h-7 w-8 place-items-center transition-transform hover:scale-105 ${
+              solid ? "text-kanora-ink" : "text-white drop-shadow-sm"
+            }`}
           >
             <Menu className="h-7 w-7" strokeWidth={2.4} />
           </button>
-          <Logo variant="light" />
+          <Logo variant={solid ? "dark" : "light"} />
         </div>
 
         <div className="flex items-center gap-3 md:gap-6">
           <a
             href={nav.loginHref}
-            className="hidden font-grotesk text-[17px] font-medium text-white drop-shadow-sm transition-colors hover:text-kanora-orange sm:block"
+            className={`hidden font-grotesk text-[17px] font-medium transition-colors hover:text-kanora-orange sm:block ${
+              solid ? "text-kanora-ink" : "text-white drop-shadow-sm"
+            }`}
           >
             {nav.loginLabel}
           </a>

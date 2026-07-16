@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 export function KanoraMark({ className }: { className?: string }) {
@@ -24,8 +25,7 @@ export function Logo({
   className?: string;
 }) {
   return (
-    <a href="#" className={cn("flex items-center select-none", className)}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
+    <Link href="/" className={cn("flex items-center select-none", className)}>
       <img
         src="/logo.webp"
         alt="Kanora"
@@ -34,6 +34,6 @@ export function Logo({
           variant === "light" ? "drop-shadow-sm" : ""
         )}
       />
-    </a>
+    </Link>
   );
 }
